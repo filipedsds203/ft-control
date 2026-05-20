@@ -344,6 +344,72 @@ input:focus,select:focus{border-color:var(--G);box-shadow:0 0 0 3px var(--Gbg)}
 .empty{font-size:13px;color:var(--txt4);text-align:center;padding:22px}
 ::-webkit-scrollbar{width:3px}
 ::-webkit-scrollbar-thumb{background:var(--sep);border-radius:99px}
+
+/* ─── EMPRÉSTIMOS ─── */
+.loan-type-tabs{display:flex;gap:8px;margin-bottom:14px}
+.ltype{flex:1;padding:10px;border-radius:var(--rs);border:.5px solid var(--sep);background:transparent;font-size:13px;font-weight:600;color:var(--txt3);transition:var(--tr);display:flex;flex-direction:column;align-items:center;gap:3px}
+.ltype .lte{font-size:20px}
+.ltype.on{color:#fff;border-color:transparent}
+.ltype-casal.on{background:var(--Pr)}
+.ltype-3rd.on{background:var(--O)}
+.loan-card{background:var(--sf2);border-radius:var(--rs);border:.5px solid var(--gb2);padding:13px 14px;margin-bottom:8px;transition:var(--tr)}
+.loan-card:last-child{margin-bottom:0}
+.loan-header{display:flex;align-items:center;gap:10px}
+.loan-emoji{width:38px;height:38px;border-radius:var(--rx);background:var(--glass);border:.5px solid var(--gb2);display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
+.loan-info{flex:1;min-width:0}
+.loan-desc{font-size:14px;font-weight:600;color:var(--txt)}
+.loan-meta{font-size:11px;color:var(--txt4);margin-top:1px}
+.loan-val{font-size:15px;font-weight:700;white-space:nowrap}
+.loan-status{display:flex;align-items:center;gap:6px;margin-top:10px;padding-top:10px;border-top:.5px solid var(--sep)}
+.loan-paid-at{font-size:11px;color:var(--txt3);flex:1}
+.loan-direction{display:flex;gap:5px;margin-top:8px;padding:8px 10px;border-radius:var(--rx);background:var(--glass)}
+.ld-box{flex:1;text-align:center}
+.ld-lbl{font-size:10px;color:var(--txt3)}
+.ld-val{font-size:13px;font-weight:600;margin-top:2px}
+.loan-arrow{font-size:18px;color:var(--txt4);align-self:center}
+.loan-summary{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:14px}
+.loan-sum-box{background:var(--sf2);border-radius:var(--rs);padding:12px 14px;border:.5px solid var(--gb2)}
+.loan-sum-lbl{font-size:11px;color:var(--txt3);font-weight:500}
+.loan-sum-val{font-size:18px;font-weight:700;letter-spacing:-.4px;margin-top:3px}
+
+/* ─── METAS / POUPANÇA ─── */
+.pig-meta-bar-wrap{margin-top:10px}
+.pig-meta-label{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px}
+.pig-meta-pct{font-size:13px;font-weight:700;color:var(--B)}
+.pig-meta-falta{font-size:11px;color:var(--txt3)}
+.pig-bar-track{height:6px;background:var(--sep);border-radius:99px;overflow:hidden}
+.pig-bar-fill{height:100%;border-radius:99px;transition:width .8s cubic-bezier(.4,0,.2,1)}
+.pig-meta-footer{display:flex;justify-content:space-between;align-items:center;margin-top:6px}
+.pig-meta-vals{font-size:11px;color:var(--txt3)}
+.pig-meta-proj{font-size:10px;font-weight:500;padding:2px 8px;border-radius:20px}
+.pig-meta-proj.ok{background:var(--Gbg);color:var(--G)}
+.pig-meta-proj.warn{background:var(--Obg);color:var(--O)}
+.pig-meta-proj.done{background:var(--Gbg);color:var(--G);font-weight:700}
+.pig-top-summary{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px}
+.pig-sum-box{background:var(--sf2);border-radius:var(--rs);padding:11px 12px;border:.5px solid var(--gb2);text-align:center}
+.pig-sum-lbl{font-size:10px;color:var(--txt3);font-weight:500}
+.pig-sum-val{font-size:16px;font-weight:700;letter-spacing:-.3px;margin-top:3px}
+.pig-edit-btn{font-size:11px;padding:3px 9px;border-radius:20px;border:.5px solid var(--sep);background:transparent;color:var(--txt3);cursor:pointer;transition:var(--tr)}
+.pig-edit-btn:hover{border-color:var(--B);color:var(--B)}
+
+/* ─── GRÁFICO DE CATEGORIAS ─── */
+.chart-wrap{display:flex;align-items:center;gap:18px;padding:4px 0}
+.chart-svg{flex-shrink:0;filter:drop-shadow(0 2px 8px rgba(0,0,0,.10))}
+.chart-legend{flex:1;display:flex;flex-direction:column;gap:7px;min-width:0}
+.cl-item{display:flex;align-items:center;gap:8px;cursor:pointer;border-radius:var(--rx);padding:2px 4px;transition:var(--tr)}
+.cl-item:hover{background:var(--sf2)}
+.cl-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.cl-info{flex:1;min-width:0}
+.cl-name{font-size:12px;font-weight:500;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cl-bar-track{height:3px;background:var(--sep);border-radius:99px;margin-top:3px;overflow:hidden}
+.cl-bar-fill{height:100%;border-radius:99px;transition:width .6s ease}
+.cl-val{font-size:12px;font-weight:600;color:var(--txt2);white-space:nowrap;flex-shrink:0}
+.cl-pct{font-size:10px;color:var(--txt3);margin-left:2px}
+.chart-empty{font-size:13px;color:var(--txt4);text-align:center;padding:20px}
+.chart-tab-wrap{display:flex;gap:6px;margin-bottom:12px}
+.chart-tab{padding:5px 12px;border-radius:20px;border:.5px solid var(--sep);background:transparent;font-size:12px;color:var(--txt3);cursor:pointer;transition:var(--tr)}
+.chart-tab:hover{border-color:var(--G);color:var(--G)}
+.chart-tab.on{background:var(--G);color:#fff;border-color:var(--G)}
 </style>
 </head>
 <body>
@@ -385,7 +451,7 @@ input:focus,select:focus{border-color:var(--G);box-shadow:0 0 0 3px var(--Gbg)}
     <div class="hacts">
       <button class="hbtn" id="dkbtn" onclick="toggleDark()" title="Modo escuro">🌙</button>
       <button class="hbtn hia" onclick="openIA()">✦ IA</button>
-      <button class="hbtn" onclick="resetLocalApp()" style="font-size:12px" title="Apagar dados e começar do zero">Zerar</button>
+
       <button class="hbtn" onclick="logout()" style="font-size:12px">Sair</button>
     </div>
   </div>
@@ -395,6 +461,7 @@ input:focus,select:focus{border-color:var(--G);box-shadow:0 0 0 3px var(--Gbg)}
     <button class="ntab" onclick="setAba('ela',this)"><span class="ne">👩🏻‍🦱</span>ELA</button>
     <button class="ntab" onclick="setAba('eco',this)"><span class="ne">🐷</span>POUPANÇA</button>
     <button class="ntab" onclick="setAba('mes',this)"><span class="ne">📅</span>MÊS</button>
+    <button class="ntab" onclick="setAba('emp',this)"><span class="ne">🤝</span>EMPREST.</button>
   </div>
   <div class="main" id="main"></div>
 </div>
@@ -492,7 +559,8 @@ function createDefaultDB(){
     },
     eco:[],
     instancias:{},
-    movimentos:[]
+    movimentos:[],
+    emprestimos:[]
   };
 }
 function normalizeDB(db){
@@ -504,6 +572,7 @@ function normalizeDB(db){
   db.eco=Array.isArray(db.eco)?db.eco:def.eco;
   db.instancias=db.instancias&&typeof db.instancias==='object'?db.instancias:{};
   db.movimentos=Array.isArray(db.movimentos)?db.movimentos:[];
+  db.emprestimos=Array.isArray(db.emprestimos)?db.emprestimos:[];
   ['ele','ela'].forEach(a=>{
     db[a].entradas=Array.isArray(db[a].entradas)?db[a].entradas:[];
     db[a].saidas=Array.isArray(db[a].saidas)?db[a].saidas:[];
@@ -537,6 +606,7 @@ function syncIds(){
   DB.casal.recorrentes.forEach(i=>ids.push(Number(i.id)||0));
   DB.casal.esporadicas.forEach(i=>ids.push(Number(i.id)||0));
   DB.eco.forEach(i=>ids.push(Number(i.id)||0));
+  if(Array.isArray(DB.emprestimos))DB.emprestimos.forEach(i=>ids.push(Number(i.id)||0));
   _id=Math.max(200,...ids);
 }
 function ensureCurrentMonthInstances(){
@@ -668,6 +738,7 @@ function render(){
   if(a==='ele'||a==='ela')renderPessoa(m,a);
   else if(a==='casal')renderCasal(m);
   else if(a==='eco')renderEco(m);
+  else if(a==='emp')renderEmp(m);
   else renderMes(m);
   saveDB();
 }
@@ -713,7 +784,7 @@ function renderPessoa(m,aba){
   </div>
   <div class="prog">
     <div class="pt"><div class="pf" style="width:${pct}%;background:${cor}"></div></div>
-    <div class="pl">${pct}% gasto · projeção fim do mês: <strong>${fmtSaldo(d.saldo-tF)}</strong></div>
+    <div class="pl">${tE>0?pct+'% gasto · ':''}projeção fim do mês: <strong style="color:${(d.saldo-tF)<0?'var(--R)':''}"> ${fmtSaldo(d.saldo-tF)}</strong></div>
   </div>
 </div>
 <div class="acts">
@@ -930,19 +1001,134 @@ function saveEsp(id){
 }
 
 /* ─── ECONOMIAS ─── */
-function renderEco(m){
-  const items=DB.eco,tot=items.reduce((s,i)=>s+i.val,0);
-  m.innerHTML=`
-<div class="gc"><div class="glbl">Total em reservas</div><div class="saldo vb">${fmt(tot)}</div><div style="font-size:12px;color:var(--txt3);margin-top:4px">${items.length} reservas ativas</div></div>
-<div class="acts"><button class="ab abb" onclick="openModal('nova_res','eco')">🐷 Nova reserva</button></div>
-<div class="gc"><div class="glbl">Reservas</div>
-${items.map(i=>`
-<div class="pigrow">
-  <div class="pigico" onclick="openPig(${i.id})">${i.emoji}</div>
-  <div class="pigi"><div class="pign">${i.desc}<span class="bdg binf">${i.quem}</span></div><div class="pigo">🎯 ${i.objetivo}</div><div class="pigb">🏦 ${i.banco}</div></div>
-  <div class="pigr"><div class="pigv">${fmt(i.val)}</div><div class="piglb"><button class="pbt pbg" onclick="openPig(${i.id},'g')">+ Guardar</button><button class="pbt pbr" onclick="openPig(${i.id},'r')">↩ Resgatar</button></div></div>
-</div>`).join('')}
+function metaProgress(i){
+  // Retorna {pct, falta, projLabel, projClass, barColor}
+  const meta=money(i.meta||0);
+  if(meta<=0)return null;
+  const atual=money(i.val);
+  const pct=Math.min(100,Math.round((atual/meta)*100));
+  const falta=Math.max(0,meta-atual);
+  if(pct>=100)return{pct:100,falta:0,projLabel:'🎉 Meta atingida!',projClass:'done',barColor:'var(--G)'};
+  // Projeção por data
+  let projLabel='',projClass='ok';
+  if(i.prazo){
+    const hoje=new Date();
+    const alvo=new Date(i.prazo+'T12:00');
+    const diasRestantes=Math.max(1,Math.ceil((alvo-hoje)/(1000*60*60*24)));
+    const mesesRestantes=diasRestantes/30;
+    const porMes=mesesRestantes>0?falta/mesesRestantes:falta;
+    if(hoje>alvo){projLabel='⚠️ Prazo vencido';projClass='warn';}
+    else{projLabel=`~${fmt(porMes)}/mês p/ atingir`;projClass=porMes>5000?'warn':'ok';}
+  }
+  const barColor=pct>=80?'var(--G)':pct>=50?'var(--B)':'var(--O)';
+  return{pct,falta,projLabel,projClass,barColor};
+}
+
+function pigCard(i){
+  const prog=metaProgress(i);
+  const meta=money(i.meta||0);
+  const progressBar=prog?`
+<div class="pig-meta-bar-wrap">
+  <div class="pig-meta-label">
+    <span class="pig-meta-pct">${prog.pct}% da meta</span>
+    <span class="pig-meta-falta">${prog.pct<100?'falta '+fmt(prog.falta):''}</span>
+  </div>
+  <div class="pig-bar-track"><div class="pig-bar-fill" style="width:${prog.pct}%;background:${prog.barColor}"></div></div>
+  <div class="pig-meta-footer">
+    <span class="pig-meta-vals">${fmt(i.val)} / ${fmt(meta)}${i.prazo?' · até '+fmtD(i.prazo):''}</span>
+    ${prog.projLabel?`<span class="pig-meta-proj ${prog.projClass}">${prog.projLabel}</span>`:''}
+  </div>
+</div>`:
+`<div style="font-size:11px;color:var(--txt4);margin-top:6px">Sem meta definida · <button class="pig-edit-btn" onclick="openEditPig(${i.id})">definir meta</button></div>`;
+  return`
+<div style="padding:12px 0;border-bottom:.5px solid var(--sep)">
+  <div class="pigrow" style="padding:0;border:none">
+    <div class="pigico" onclick="openPig(${i.id})">${i.emoji}</div>
+    <div class="pigi">
+      <div class="pign">${i.desc}<span class="bdg binf">${i.quem}</span></div>
+      <div class="pigo">🎯 ${i.objetivo}</div>
+      <div class="pigb">🏦 ${i.banco}</div>
+    </div>
+    <div class="pigr">
+      <div class="pigv" style="color:${prog&&prog.pct>=100?'var(--G)':'var(--B)'}">${fmt(i.val)}</div>
+      <div class="piglb">
+        <button class="pbt pbg" onclick="openPig(${i.id},'g')">+</button>
+        <button class="pbt pbr" onclick="openPig(${i.id},'r')">↩</button>
+        <button class="pig-edit-btn" onclick="openEditPig(${i.id})">✎</button>
+      </div>
+    </div>
+  </div>
+  ${progressBar}
 </div>`;
+}
+
+function renderEco(m){
+  const items=DB.eco;
+  const tot=items.reduce((s,i)=>s+i.val,0);
+  const totalMeta=items.filter(i=>i.meta>0).reduce((s,i)=>s+money(i.meta),0);
+  const atingidas=items.filter(i=>i.meta>0&&i.val>=i.meta).length;
+  const emAndamento=items.filter(i=>i.meta>0&&i.val<i.meta).length;
+
+  m.innerHTML=`
+<div class="gc">
+  <div class="glbl">Poupança & Reservas</div>
+  <div class="saldo vb">${fmt(tot)}</div>
+  <div class="pig-top-summary" style="margin-top:14px">
+    <div class="pig-sum-box">
+      <div class="pig-sum-lbl">Reservas</div>
+      <div class="pig-sum-val vb">${items.length}</div>
+    </div>
+    <div class="pig-sum-box">
+      <div class="pig-sum-lbl">Em andamento</div>
+      <div class="pig-sum-val vo">${emAndamento}</div>
+    </div>
+    <div class="pig-sum-box">
+      <div class="pig-sum-lbl">✅ Atingidas</div>
+      <div class="pig-sum-val vg">${atingidas}</div>
+    </div>
+  </div>
+  ${totalMeta>0?`<div style="font-size:11px;color:var(--txt3);margin-top:4px">Total em metas: ${fmt(totalMeta)}</div>`:''}
+</div>
+<div class="acts"><button class="ab abb" onclick="openModal('nova_res','eco')">🐷 Nova reserva</button></div>
+<div class="gc">
+  <div class="glbl">Reservas</div>
+  ${items.length?items.map(i=>pigCard(i)).join(''):'<div class="empty">Nenhuma reserva ainda</div>'}
+</div>`;
+}
+
+function openEditPig(id){
+  const it=DB.eco.find(i=>i.id===id);if(!it)return;
+  ST.emoji=it.emoji;
+  showModal(`<div class="mh"></div><h3>Editar reserva</h3>
+<div><label>Nome</label><input id="pe-desc" value="${it.desc}"></div>
+<div><label>Ícone</label><div class="epw"><div class="epprev" id="ep-prev">${it.emoji}</div><div class="epscrl">${ERES.map(e=>`<button class="epb${e===it.emoji?' on':''}" onclick="pickE('${e}',this)">${e}</button>`).join('')}</div></div></div>
+<div><label>Banco / carteira</label><input id="pe-banco" value="${it.banco||''}"></div>
+<div><label>Objetivo</label><input id="pe-obj" value="${it.objetivo||''}"></div>
+<div><label>Quem</label><select id="pe-quem"><option${it.quem==='👨🏻‍🦲 Ele'||it.quem==='Ele'?' selected':''}>👨🏻‍🦲 Ele</option><option${it.quem==='👩🏻‍🦱 Ela'||it.quem==='Ela'?' selected':''}>👩🏻‍🦱 Ela</option><option${it.quem==='Casal'?' selected':''}>Casal</option></select></div>
+<div class="r2"><div><label>Meta (valor alvo)</label><input id="pe-meta" type="number" value="${it.meta||''}" placeholder="0,00"></div><div><label>Data alvo</label><input id="pe-prazo" type="date" value="${it.prazo||''}"></div></div>
+<div class="mbtns">
+  <button class="ab abgr" onclick="closeModal()">Cancelar</button>
+  <button class="ab abr" style="flex:0;padding:13px 16px" onclick="delPig(${id})">🗑</button>
+  <button class="ab abg" onclick="saveEditPig(${id})">Salvar</button>
+</div>`);
+}
+
+function saveEditPig(id){
+  const it=DB.eco.find(i=>i.id===id);if(!it)return;
+  it.desc=document.getElementById('pe-desc')?.value||it.desc;
+  it.banco=document.getElementById('pe-banco')?.value||it.banco;
+  it.objetivo=document.getElementById('pe-obj')?.value||it.objetivo;
+  it.quem=document.getElementById('pe-quem')?.value||it.quem;
+  it.meta=money(document.getElementById('pe-meta')?.value||0);
+  it.prazo=document.getElementById('pe-prazo')?.value||'';
+  it.emoji=ST.emoji;
+  saveDB();saveCloudDebounced();closeModal();render();
+}
+
+function delPig(id){
+  if(!confirm('Excluir esta reserva? O valor NÃO volta automaticamente para o saldo.'))return;
+  DB.eco=DB.eco.filter(i=>i.id!==id);
+  saveDB();saveCloudDebounced();closeModal();render();
 }
 function openPig(id,a='g'){
   const it=DB.eco.find(i=>i.id===id);if(!it)return;
@@ -994,21 +1180,34 @@ function renderMes(m){
   const contsEla=getContasMes('ela',y,mo);
   const totalRec=DB.casal.recorrentes.reduce((s,r)=>s+r.total,0);
 
-  const eleEnt=curr?DB.ele.entradas.reduce((s,i)=>s+i.val,0):0;
-  const elaSai_r=curr?DB.ela.saidas.reduce((s,i)=>s+i.val,0):0;
-  const eleSai_r=curr?DB.ele.saidas.reduce((s,i)=>s+i.val,0):0;
+  // Filtrar lançamentos do mês visualizado (por data)
+  const filtrarMes=(arr)=>arr.filter(i=>{const d=new Date((i.data||'')+'T12:00');return d.getFullYear()===y&&d.getMonth()===mo;});
+  const eleEntArr=filtrarMes(DB.ele.entradas);
+  const elaEntArr=filtrarMes(DB.ela.entradas);
+  const eleSaiArr=filtrarMes(DB.ele.saidas);
+  const elaSaiArr=filtrarMes(DB.ela.saidas);
+  const eleEnt=eleEntArr.reduce((s,i)=>s+i.val,0);
+  const elaEnt=elaEntArr.reduce((s,i)=>s+i.val,0);
+  const eleSai_r=eleSaiArr.reduce((s,i)=>s+i.val,0);
+  const elaSai_r=elaSaiArr.reduce((s,i)=>s+i.val,0);
   const elePago=contsEle.filter(i=>i.pago).reduce((s,i)=>s+i.val,0);
   const elaPago=contsEla.filter(i=>i.pago).reduce((s,i)=>s+i.val,0);
   const elePend=contsEle.filter(i=>!i.pago).reduce((s,i)=>s+i.val,0);
   const elaPend=contsEla.filter(i=>!i.pago).reduce((s,i)=>s+i.val,0);
   const totalPend=elePend+elaPend;
   const totalPago=elePago+elaPago;
-  const totalSaidaReal=eleSai_r+elaSai_r;
-  const saldoProj=DB.ele.saldo+DB.ela.saldo-totalPend;
+  const totalSaidaReal=money(eleSai_r)+money(elaSai_r);
+  // Projeção: usa saldo real se for mês atual, ou entradas-gastos-pendentes para outros meses
+  const totalEntMes=eleEnt+elaEnt;
+  const saldoProj=curr
+    ? DB.ele.saldo+DB.ela.saldo-totalPend
+    : totalEntMes - totalSaidaReal - totalPend;
   // health score 0-100: quanto do previsto já foi coberto
   const previsto=curr?totalRec:DB.casal.recorrentes.reduce((s,r)=>s+r.total,0);
   const health=previsto>0?Math.min(100,Math.round((totalPago/previsto)*100)):0;
-  const healthColor=health>=80?'#30d158':health>=50?'#ff9f0a':'#ff453a';
+  // Sem contas configuradas: estado neutro
+  const semContas=previsto===0&&contsEle.length===0&&contsEla.length===0;
+  const healthColor=semContas?'var(--txt3)':health>=80?'#30d158':health>=50?'#ff9f0a':'#ff453a';
 
   // Agrupar todas as contas por data para timeline
   const allContas=[...contsEle.map(c=>({...c,aba:'ele'})),...contsEla.map(c=>({...c,aba:'ela'}))];
@@ -1052,8 +1251,8 @@ function renderMes(m){
     </svg>
     <div class="ring-info">
       <div style="font-size:11px;color:var(--txt3);text-transform:uppercase;letter-spacing:.6px;font-weight:600;margin-bottom:4px">Saúde financeira</div>
-      <div class="ring-val" style="color:${healthColor}">${health<50?'⚠️ Atenção':health<80?'👍 Indo bem':'✅ Excelente'}</div>
-      <div class="ring-sub">${fmt(totalPago)} pagos de ${fmt(previsto)} previstos</div>
+      <div class="ring-val" style="color:${healthColor}">${semContas?'📋 Configure contas':health===0&&previsto>0?'🕐 Mês em curso':health<50?'⚠️ Atenção':health<80?'👍 Indo bem':'✅ Excelente'}</div>
+      <div class="ring-sub">${semContas?'Adicione contas fixas no Casal':fmt(totalPago)+' pagos de '+fmt(previsto)+' previstos'}</div>
     </div>
   </div>
 </div>
@@ -1062,7 +1261,7 @@ function renderMes(m){
 <div class="sgrid">
   <div class="sbox" style="background:linear-gradient(135deg,rgba(52,199,89,.08),rgba(52,199,89,.04))">
     <div class="sbox-l">Entradas</div>
-    <div class="sbox-v vg">${fmt(eleEnt+DB.ela.entradas.reduce((s,i)=>curr?s+i.val:s,0))}</div>
+    <div class="sbox-v vg">${fmt(eleEnt+elaEnt)}</div>
   </div>
   <div class="sbox" style="background:linear-gradient(135deg,rgba(255,59,48,.08),rgba(255,59,48,.04))">
     <div class="sbox-l">Gastos realizados</div>
@@ -1072,16 +1271,137 @@ function renderMes(m){
     <div class="sbox-l">A pagar ainda</div>
     <div class="sbox-v vo">${fmt(totalPend)}</div>
   </div>
-  <div class="sbox" style="background:linear-gradient(135deg,rgba(0,122,255,.08),rgba(0,122,255,.04))">
+  <div class="sbox" style="background:linear-gradient(135deg,${saldoProj>=0?'rgba(0,122,255,.08),rgba(0,122,255,.04)':'rgba(255,59,48,.08),rgba(255,59,48,.04)'})">
     <div class="sbox-l">Projeção final</div>
-    <div class="sbox-v vb">${fmt(saldoProj)}</div>
+    <div class="sbox-v ${saldoProj>=0?'vb':'vr'}">${fmtSaldo(saldoProj)}</div>
   </div>
 </div>
+
+<!-- GRÁFICO DE CATEGORIAS -->
+${renderCatChart(eleSaiArr,elaSaiArr,contsEle,contsEla)}
 
 <!-- CONTEÚDO POR CONTEXTO -->
 ${curr?renderMesCurrent(byDay,y,mo):next?renderMesNext(y,mo):renderMesPast(byDay)}
 `;
 }
+
+
+/* ══════════════════════════════════════
+   📊 GRÁFICO DE CATEGORIAS
+══════════════════════════════════════ */
+const CAT_COLORS=[
+  '#34c759','#007aff','#ff9500','#ff3b30','#af52de',
+  '#5ac8fa','#ff2d55','#ffcc00','#4cd964','#ff6b35',
+  '#a8e6cf','#fd79a8','#6c5ce7','#00b894','#e17055'
+];
+
+let chartMode='saidas'; // 'saidas' | 'contas' | 'tudo'
+
+function buildCatData(mode, eleSai, elaSai, contsEle, contsEla){
+  const map={};
+  const add=(cat,val,emoji)=>{
+    if(!cat||val<=0)return;
+    if(!map[cat])map[cat]={cat,val:0,emoji:emoji||'💰'};
+    map[cat].val+=val;
+  };
+
+  if(mode==='saidas'||mode==='tudo'){
+    eleSai.forEach(i=>add(i.cat,i.val,i.emoji));
+    elaSai.forEach(i=>add(i.cat,i.val,i.emoji));
+  }
+  if(mode==='contas'||mode==='tudo'){
+    contsEle.forEach(i=>add(i.cat,i.val,i.emoji));
+    contsEla.forEach(i=>add(i.cat,i.val,i.emoji));
+  }
+
+  return Object.values(map)
+    .filter(d=>d.val>0)
+    .sort((a,b)=>b.val-a.val);
+}
+
+function buildPieSlices(data){
+  const total=data.reduce((s,d)=>s+d.val,0);
+  if(total<=0)return[];
+  let angle=-Math.PI/2; // começa no topo
+  return data.map((d,i)=>{
+    const pct=d.val/total;
+    const sweep=pct*2*Math.PI;
+    const startAngle=angle;
+    angle+=sweep;
+    return{...d,pct,sweep,startAngle,endAngle:angle,color:CAT_COLORS[i%CAT_COLORS.length]};
+  });
+}
+
+function polarToXY(cx,cy,r,angle){
+  return{x:cx+r*Math.cos(angle),y:cy+r*Math.sin(angle)};
+}
+
+function slicePath(cx,cy,r,inner,startAngle,endAngle){
+  const large=endAngle-startAngle>Math.PI?1:0;
+  const s=polarToXY(cx,cy,r,startAngle);
+  const e=polarToXY(cx,cy,r,endAngle);
+  const si=polarToXY(cx,cy,inner,startAngle);
+  const ei=polarToXY(cx,cy,inner,endAngle);
+  return`M${s.x.toFixed(2)},${s.y.toFixed(2)} A${r},${r} 0 ${large},1 ${e.x.toFixed(2)},${e.y.toFixed(2)} L${ei.x.toFixed(2)},${ei.y.toFixed(2)} A${inner},${inner} 0 ${large},0 ${si.x.toFixed(2)},${si.y.toFixed(2)} Z`;
+}
+
+function renderCatChart(eleSai, elaSai, contsEle, contsEla){
+  const data=buildCatData(chartMode, eleSai, elaSai, contsEle, contsEla);
+  const total=data.reduce((s,d)=>s+d.val,0);
+
+  const tabs=`
+<div class="chart-tab-wrap">
+  <button class="chart-tab${chartMode==='saidas'?' on':''}" onclick="setChartMode('saidas')">💸 Gastos</button>
+  <button class="chart-tab${chartMode==='contas'?' on':''}" onclick="setChartMode('contas')">📋 Contas</button>
+  <button class="chart-tab${chartMode==='tudo'?' on':''}" onclick="setChartMode('tudo')">Tudo</button>
+</div>`;
+
+  if(!data.length) return`<div class="gc"><div class="glbl">Por categoria</div>${tabs}<div class="chart-empty">Sem lançamentos para exibir</div></div>`;
+
+  const slices=buildPieSlices(data);
+  const cx=60,cy=60,r=52,inner=28;
+  const paths=slices.map((s,i)=>`
+<path d="${slicePath(cx,cy,r,inner,s.startAngle,s.endAngle)}"
+  fill="${s.color}" opacity=".92"
+  style="cursor:pointer;transition:opacity .15s"
+  onmouseenter="this.style.opacity=1;this.style.transform='scale(1.03)';this.style.transformOrigin='${cx}px ${cy}px'"
+  onmouseleave="this.style.opacity='.92';this.style.transform=''"
+/>`).join('');
+
+  const svgHtml=`
+<svg class="chart-svg" width="120" height="120" viewBox="0 0 120 120">
+  ${paths}
+  <text x="${cx}" y="${cy-6}" text-anchor="middle" font-size="9" fill="var(--txt3)" font-family="-apple-system,sans-serif">total</text>
+  <text x="${cx}" y="${cy+8}" text-anchor="middle" font-size="11" font-weight="700" fill="var(--txt)" font-family="-apple-system,sans-serif">${fmt(total).replace('R$ ','R$')}</text>
+</svg>`;
+
+  const legendItems=data.slice(0,6).map((d,i)=>{
+    const pct=Math.round(d.pct*100);
+    const barW=Math.round(d.pct*100);
+    return`
+<div class="cl-item">
+  <div class="cl-dot" style="background:${slices[i].color}"></div>
+  <div class="cl-info">
+    <div class="cl-name">${d.emoji} ${d.cat}</div>
+    <div class="cl-bar-track"><div class="cl-bar-fill" style="width:${barW}%;background:${slices[i].color}"></div></div>
+  </div>
+  <div><span class="cl-val">${fmt(d.val)}</span><span class="cl-pct">${pct}%</span></div>
+</div>`;}).join('');
+
+  const maisHtml=data.length>6?`<div style="font-size:11px;color:var(--txt3);margin-top:4px;padding-left:18px">+${data.length-6} outras categorias</div>`:'';
+
+  return`<div class="gc">
+  <div class="glbl">Por categoria</div>
+  ${tabs}
+  <div class="chart-wrap">
+    ${svgHtml}
+    <div class="chart-legend">${legendItems}</div>
+  </div>
+  ${maisHtml}
+</div>`;
+}
+
+function setChartMode(m){chartMode=m;render();}
 
 /* Mês atual: timeline de contas */
 let mesFilter='todos'; // 'todos','ele','ela'
@@ -1241,6 +1561,277 @@ function prevMes(){if(ST.vm===0){ST.vm=11;ST.vy--;}else ST.vm--;render();}
 function nextMes(){if(ST.vm===11){ST.vm=0;ST.vy++;}else ST.vm++;render();}
 
 /* ─── MODAL GENÉRICO ─── */
+
+/* ══════════════════════════════════════
+   🤝 EMPRÉSTIMOS
+   Tipos:
+   - 'casal': entre Ele e Ela
+   - 'ext': para terceiros (alguém de fora)
+   
+   Estrutura de cada empréstimo:
+   {
+     id, emoji, desc,
+     tipo: 'casal'|'ext',
+     de: 'ele'|'ela',        // quem emprestou
+     para: 'ela'|'ele'|str,  // quem recebeu
+     val: number,
+     data: 'YYYY-MM-DD',
+     pago: bool,
+     dataPago: str|null,
+     obs: str
+   }
+══════════════════════════════════════ */
+let empTab='casal'; // 'casal' ou 'ext'
+function setEmpTab(t){empTab=t;render();}
+
+function renderEmp(m){
+  const todos=DB.emprestimos||[];
+  const casal=todos.filter(e=>e.tipo==='casal');
+  const ext=todos.filter(e=>e.tipo==='ext');
+
+  // Totais
+  const casalPend=casal.filter(e=>!e.pago).reduce((s,e)=>s+e.val,0);
+  const extPend=ext.filter(e=>!e.pago).reduce((s,e)=>s+e.val,0);
+
+  m.innerHTML=`
+<div class="gc">
+  <div class="glbl">Empréstimos</div>
+  <div class="loan-summary">
+    <div class="loan-sum-box" style="border-left:3px solid var(--Pr)">
+      <div class="loan-sum-lbl">🤝 Entre vocês</div>
+      <div class="loan-sum-val" style="color:var(--Pr)">${fmt(casalPend)}</div>
+      <div style="font-size:10px;color:var(--txt4);margin-top:2px">${casal.filter(e=>!e.pago).length} pendente(s)</div>
+    </div>
+    <div class="loan-sum-box" style="border-left:3px solid var(--O)">
+      <div class="loan-sum-lbl">🌍 Para terceiros</div>
+      <div class="loan-sum-val" style="color:var(--O)">${fmt(extPend)}</div>
+      <div style="font-size:10px;color:var(--txt4);margin-top:2px">${ext.filter(e=>!e.pago).length} pendente(s)</div>
+    </div>
+  </div>
+</div>
+
+<div class="loan-type-tabs">
+  <button class="ltype ltype-casal${empTab==='casal'?' on':''}" onclick="setEmpTab('casal')">
+    <span class="lte">💑</span>Entre vocês
+  </button>
+  <button class="ltype ltype-3rd${empTab==='ext'?' on':''}" onclick="setEmpTab('ext')">
+    <span class="lte">🌍</span>Para terceiros
+  </button>
+</div>
+
+<div class="acts" style="margin-bottom:12px">
+  <button class="ab ${empTab==='casal'?'abpr':'abo'}" onclick="openEmpModal('${empTab}')">
+    ${empTab==='casal'?'💑 Novo entre vocês':'🌍 Novo para terceiros'}
+  </button>
+</div>
+
+<div class="gc">
+  <div class="ilist">
+    ${empTab==='casal'?rEmpCasal(casal):rEmpExt(ext)}
+  </div>
+</div>`;
+}
+
+function rEmpCasal(items){
+  if(!items.length)return'<div class="empty">Nenhum empréstimo entre vocês</div>';
+  // Separar pendentes e quitados
+  const pend=items.filter(e=>!e.pago);
+  const quit=items.filter(e=>e.pago);
+  let html='';
+  if(pend.length){
+    html+=pend.map(e=>empCardCasal(e)).join('');
+  }
+  if(quit.length){
+    html+=`<div style="font-size:11px;color:var(--txt3);text-transform:uppercase;letter-spacing:.5px;font-weight:600;padding:10px 0 6px">Quitados</div>`;
+    html+=quit.map(e=>empCardCasal(e,true)).join('');
+  }
+  return html||'<div class="empty">Nenhum empréstimo</div>';
+}
+
+function empCardCasal(e,dim=false){
+  const deAvt=e.de==='ele'?'👨🏻‍🦲':'👩🏻‍🦱';
+  const paraAvt=e.para==='ele'?'👨🏻‍🦲':'👩🏻‍🦱';
+  const deNome=e.de==='ele'?'Ele':'Ela';
+  const paraNome=e.para==='ele'?'Ele':'Ela';
+  return`
+<div class="loan-card" style="${dim?'opacity:.6':''}">
+  <div class="loan-header">
+    <div class="loan-emoji">${e.emoji||'🤝'}</div>
+    <div class="loan-info">
+      <div class="loan-desc">${e.desc||'Empréstimo'}</div>
+      <div class="loan-meta">${fmtD(e.data)}${e.obs?' · '+e.obs:''}</div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+      <div class="loan-val" style="color:${e.pago?'var(--G)':'var(--Pr)'}">
+        ${fmt(e.val)}${e.pago?' ✓':''}
+      </div>
+      <div style="display:flex;gap:4px">
+        ${!e.pago?`<button class="mpb pg" onclick="pagarEmp(${e.id})">✓ quitado</button>`:`<button class="mpb ud" onclick="estornarEmp(${e.id})">↩ desfazer</button>`}
+        <button class="iab dl" onclick="delEmp(${e.id})" style="width:26px;height:26px;border-radius:6px">✕</button>
+      </div>
+    </div>
+  </div>
+  <div class="loan-direction">
+    <div class="ld-box">
+      <div class="ld-lbl">Emprestou</div>
+      <div class="ld-val">${deAvt} ${deNome}</div>
+    </div>
+    <div class="loan-arrow">→</div>
+    <div class="ld-box">
+      <div class="ld-lbl">Recebeu</div>
+      <div class="ld-val">${paraAvt} ${paraNome}</div>
+    </div>
+  </div>
+  ${e.pago&&e.dataPago?`<div style="font-size:11px;color:var(--G);margin-top:8px">✓ Quitado em ${fmtD(e.dataPago)}</div>`:''}
+</div>`;
+}
+
+function rEmpExt(items){
+  if(!items.length)return'<div class="empty">Nenhum empréstimo para terceiros</div>';
+  const pend=items.filter(e=>!e.pago);
+  const quit=items.filter(e=>e.pago);
+  let html='';
+  if(pend.length) html+=pend.map(e=>empCardExt(e)).join('');
+  if(quit.length){
+    html+=`<div style="font-size:11px;color:var(--txt3);text-transform:uppercase;letter-spacing:.5px;font-weight:600;padding:10px 0 6px">Quitados</div>`;
+    html+=quit.map(e=>empCardExt(e,true)).join('');
+  }
+  return html||'<div class="empty">Nenhum empréstimo</div>';
+}
+
+function empCardExt(e,dim=false){
+  const deAvt=e.de==='ele'?'👨🏻‍🦲':'👩🏻‍🦱';
+  const deNome=e.de==='ele'?'Ele':'Ela';
+  return`
+<div class="loan-card" style="${dim?'opacity:.6':''}">
+  <div class="loan-header">
+    <div class="loan-emoji">${e.emoji||'🌍'}</div>
+    <div class="loan-info">
+      <div class="loan-desc">${e.para}</div>
+      <div class="loan-meta">${deAvt} ${deNome} emprestou · ${fmtD(e.data)}</div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+      <div class="loan-val" style="color:${e.pago?'var(--G)':'var(--O)'}">
+        ${fmt(e.val)}${e.pago?' ✓':''}
+      </div>
+      <div style="display:flex;gap:4px">
+        ${!e.pago?`<button class="mpb pg" style="border-color:var(--O);color:var(--O)" onclick="pagarEmp(${e.id})">✓ devolveu</button>`:`<button class="mpb ud" onclick="estornarEmp(${e.id})">↩ desfazer</button>`}
+        <button class="iab dl" onclick="delEmp(${e.id})" style="width:26px;height:26px;border-radius:6px">✕</button>
+      </div>
+    </div>
+  </div>
+  ${e.obs?`<div style="font-size:11px;color:var(--txt3);margin-top:6px">📝 ${e.obs}</div>`:''}
+  ${e.pago&&e.dataPago?`<div style="font-size:11px;color:var(--G);margin-top:6px">✓ Devolvido em ${fmtD(e.dataPago)}</div>`:''}
+</div>`;
+}
+
+/* ─── AÇÕES DE EMPRÉSTIMO ─── */
+function pagarEmp(id){
+  const e=DB.emprestimos.find(x=>x.id===id);
+  if(!e||e.pago)return;
+  if(!confirm(`Confirmar ${e.tipo==='casal'?'quitação':'devolução'} de ${fmt(e.val)}?`))return;
+  e.pago=true;
+  e.dataPago=todayISO();
+  if(e.tipo==='casal'){
+    // dinheiro volta pra quem emprestou e sai de quem recebeu
+    DB[e.de].saldo+=money(e.val);
+    DB[e.para].saldo-=money(e.val);
+  } else {
+    // terceiro devolveu: entra no saldo de quem emprestou
+    DB[e.de].saldo+=money(e.val);
+  }
+  saveDB();saveCloudDebounced();render();
+}
+
+function estornarEmp(id){
+  const e=DB.emprestimos.find(x=>x.id===id);
+  if(!e||!e.pago)return;
+  if(!confirm('Desfazer a quitação?'))return;
+  e.pago=false;e.dataPago=null;
+  if(e.tipo==='casal'){
+    DB[e.de].saldo-=money(e.val);
+    DB[e.para].saldo+=money(e.val);
+  } else {
+    DB[e.de].saldo-=money(e.val);
+  }
+  saveDB();saveCloudDebounced();render();
+}
+
+function delEmp(id){
+  const e=DB.emprestimos.find(x=>x.id===id);
+  if(!e)return;
+  if(!confirm('Excluir este empréstimo?'))return;
+  // Se estava pendente, devolver saldo de quem emprestou
+  if(!e.pago){
+    if(e.tipo==='ext') DB[e.de].saldo+=money(e.val); // devolve ao que foi descontado
+  }
+  DB.emprestimos=DB.emprestimos.filter(x=>x.id!==id);
+  saveDB();saveCloudDebounced();render();
+}
+
+/* ─── MODAL DE NOVO EMPRÉSTIMO ─── */
+function openEmpModal(tipo){
+  const isCasal=tipo==='casal';
+  showModal(`
+<div class="mh"></div>
+<h3>${isCasal?'💑 Empréstimo entre vocês':'🌍 Empréstimo para terceiros'}</h3>
+${isCasal
+  ?`<div class="mnote">O valor sai do saldo de quem emprestou e entra em quem recebeu. Quando quitar, o movimento é revertido.</div>`
+  :`<div class="mnote">O valor sai do saldo de quem emprestou. Quando a pessoa devolver, o valor volta para o saldo.</div>`
+}
+<div>
+  <label>Ícone</label>
+  <div class="epw">
+    <div class="epprev" id="ep-prev">${isCasal?'🤝':'🌍'}</div>
+    <div class="epscrl">${['🤝','💸','💰','💳','🏦','📋','✏️','👋','🙏','💼','🎁','🌍','👤','👥'].map((e,i)=>`<button class="epb${i===0?' on':''}" onclick="pickE('${e}',this)">${e}</button>`).join('')}</div>
+  </div>
+</div>
+${isCasal
+  ?`<div><label>Quem emprestou</label><select id="emp-de"><option value="ele">👨🏻‍🦲 Ele</option><option value="ela">👩🏻‍🦱 Ela</option></select></div>
+    <div><label>Quem recebeu</label><select id="emp-para"><option value="ela">👩🏻‍🦱 Ela</option><option value="ele">👨🏻‍🦲 Ele</option></select></div>`
+  :`<div><label>Quem emprestou</label><select id="emp-de"><option value="ele">👨🏻‍🦲 Ele</option><option value="ela">👩🏻‍🦱 Ela</option></select></div>
+    <div><label>Nome da pessoa</label><input id="emp-para-ext" type="text" placeholder="Ex: João, Maria..."></div>`
+}
+<div class="r2">
+  <div><label>Valor</label><input id="emp-val" type="number" min="0" step="0.01" placeholder="0,00"></div>
+  <div><label>Data</label><input id="emp-data" type="date" value="${new Date().toISOString().slice(0,10)}"></div>
+</div>
+<div><label>Descrição / motivo (opcional)</label><input id="emp-obs" type="text" placeholder="Ex: aluguel, emergência..."></div>
+<div class="mbtns">
+  <button class="ab abgr" onclick="closeModal()">Cancelar</button>
+  <button class="ab ${isCasal?'abpr':'abo'}" onclick="saveEmp('${tipo}')">Salvar</button>
+</div>`);
+  ST.emoji=isCasal?'🤝':'🌍';
+}
+
+function saveEmp(tipo){
+  const isCasal=tipo==='casal';
+  const de=document.getElementById('emp-de')?.value||'ele';
+  const para=isCasal?(document.getElementById('emp-para')?.value||'ela'):(document.getElementById('emp-para-ext')?.value||'?');
+  const val=money(document.getElementById('emp-val')?.value||0);
+  const data=document.getElementById('emp-data')?.value||todayISO();
+  const obs=document.getElementById('emp-obs')?.value||'';
+  const emoji=ST.emoji||(isCasal?'🤝':'🌍');
+
+  if(val<=0){alert('Informe um valor válido.');return;}
+  if(!isCasal&&!para.trim()){alert('Informe o nome da pessoa.');return;}
+  if(isCasal&&de===para){alert('Quem emprestou e quem recebeu não podem ser a mesma pessoa.');return;}
+
+  const emp={id:uid(),emoji,desc:isCasal?`${de==='ele'?'Ele':'Ela'} → ${para==='ele'?'Ele':'Ela'}`:'Empréstimo ext.',tipo,de,para,val,data,pago:false,dataPago:null,obs};
+  DB.emprestimos.push(emp);
+
+  // Debitar de quem emprestou imediatamente
+  DB[de].saldo-=val;
+  if(isCasal){
+    // Creditar em quem recebeu
+    DB[para].saldo+=val;
+  }
+
+  saveDB();saveCloudDebounced();
+  closeModal();render();
+}
+
+
 function openModal(tipo,aba){
   const emojis=tipo==='entrada'?EENT:tipo==='nova_res'?ERES:ESAI;
   ST.emoji=emojis[0];
@@ -1256,7 +1847,10 @@ function openModal(tipo,aba){
 <div><label>Quem pagou</label><select id="m-quem" onchange="togDiv()"><option>Ambos</option><option>Só ele</option><option>Só ela</option></select></div>
 <div class="r2"><div><label>👨🏻‍🦲 Ele</label><input id="m-ele" type="number" placeholder="0,00" oninput="cla('m')"></div><div><label>👩🏻‍🦱 Ela</label><input id="m-ela" type="number" placeholder="0,00" oninput="cle('m')"></div></div>`;
   } else if(tipo==='nova_res'){
-    body=`<div><label>Quem</label><select id="m-quem-res"><option>👨🏻‍🦲 Ele</option><option>👩🏻‍🦱 Ela</option><option>Casal</option></select></div><div class="r2"><div><label>Valor</label><input id="m-val-res" type="number" placeholder="0,00"></div><div><label>Banco</label><input id="m-banco-res" type="text" placeholder="Nubank..."></div></div><div><label>Objetivo</label><input id="m-obj-res" type="text" placeholder="Viagem, emergência..."></div>`;
+    body=`<div><label>Quem</label><select id="m-quem-res"><option>👨🏻‍🦲 Ele</option><option>👩🏻‍🦱 Ela</option><option>Casal</option></select></div>
+<div class="r2"><div><label>Valor inicial</label><input id="m-val-res" type="number" placeholder="0,00"></div><div><label>Banco / carteira</label><input id="m-banco-res" type="text" placeholder="Nubank..."></div></div>
+<div><label>Objetivo / nome</label><input id="m-obj-res" type="text" placeholder="Viagem Europa, emergência..."></div>
+<div class="r2"><div><label>Meta (valor alvo)</label><input id="m-meta-res" type="number" placeholder="Ex: 5000,00"></div><div><label>Data alvo (opcional)</label><input id="m-prazo-res" type="date"></div></div>`;
   } else {
     const cats=tipo==='entrada'?CENT:CSAI;
     body=`<div><label>Categoria</label><select id="m-cat">${cats.map(c=>`<option>${c}</option>`).join('')}</select></div><div class="r2"><div><label>Valor</label><input id="m-val" type="number" placeholder="0,00"></div><div><label>Data</label><input id="m-data" type="date" value="${todayISO()}"></div></div>${tipo==='futura_avulsa'?`<div><label>Vencimento</label><input id="m-venc" type="date" value="${todayISO()}"></div>`:''}`;
@@ -1299,7 +1893,9 @@ function saveModal(tipo,aba){
     const val=parseFloat(document.getElementById('m-val-res')?.value)||0;
     const banco=document.getElementById('m-banco-res')?.value||'Sem banco';
     const objetivo=document.getElementById('m-obj-res')?.value||'Sem objetivo';
-    DB.eco.push({id:uid(),emoji,desc,val,banco,objetivo,quem});
+    const meta=money(document.getElementById('m-meta-res')?.value||0);
+    const prazo=document.getElementById('m-prazo-res')?.value||'';
+    DB.eco.push({id:uid(),emoji,desc,val,banco,objetivo,quem,meta,prazo});
   }
   closeModal();render();
 }
@@ -1313,7 +1909,7 @@ function pickE(e,btn){ST.emoji=e;document.querySelectorAll('.epb').forEach(b=>b.
 
 /* ─── IA ─── */
 function openIA(){
-  const nomes={ele:'👨🏻‍🦲 Ele',ela:'👩🏻‍🦱 Ela',casal:'🏠 Casal',eco:'🐷 Poupança',mes:`📅 ${MNAMES[ST.vm]}`};
+  const nomes={ele:'👨🏻‍🦲 Ele',ela:'👩🏻‍🦱 Ela',casal:'🏠 Casal',eco:'🐷 Poupança',mes:`📅 ${MNAMES[ST.vm]}`,emp:'🤝 Empréstimos'};
   showModal(`<div class="mh"></div><h3>✦ Assistente FT</h3>
 <div class="mnote">Contexto: <strong>${nomes[ST.aba]}</strong></div>
 <div class="iachips">${['Como estão meus gastos?','Onde posso economizar?','Resumo do mês','Estou no verde?','Dicas para o próximo mês'].map(c=>`<button class="iachip" onclick="setIaQ('${c}')">${c}</button>`).join('')}</div>

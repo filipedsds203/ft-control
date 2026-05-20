@@ -755,10 +755,10 @@ function toggleDark(){dark=!dark;applyDark();saveSettings();}
 
 /* ─── EMOJIS ─── */
 const EENT=['💰','💼','🏦','📈','💵','🤑','🏆','✅','🎁','💻','🌟','📦'];
-const ESAI=['🛒','🏠','🚗','❤️','✨','👗','📱','🎓','🍽️','💊','⚡','💧','🎬','🏋️','✈️','🎮','🐾','🛠️','🎂','📚','⛽','🧴','☕','🏥','🍺'];
+const ESAI=['🛒','🏠','🚗','❤️','✨','👗','📱','🎓','🍽️','💊','⚡','💧','🎬','🏋️','✈️','🎮','🐾','🛠️','🎂','📚','⛽','🧴','☕','🏥','🍺','👶','🧒','🎒','🍼','🧸','🎠','🏫','💳','📄','🧾','💈','🌿','🎪','🛍️','🎵','🎨','⚽','🎯','🏊'];
 const ERES=['🐷','🏖️','🚗','🏡','💍','🎓','🌍','🛡️','💎','🏋️','🎸','📦','🎯','🌱'];
 const CENT=['Salário','Renda extra','Pensão','Benefício gov.','Freelance','Outros'];
-const CSAI=['Alimentação','Transporte','Saúde','Moradia','Beleza','Vestuário','Plataformas','Educação','Lazer','Presentes','Farmácia','Pets','Outros'];
+const CSAI=['Alimentação','Transporte','Saúde','Moradia','Filhos','Beleza','Vestuário','Plataformas','Educação','Lazer','Presentes','Farmácia','Pets','Assinaturas','Cartão de crédito','Impostos','Outros'];
 
 /* ─── STATE ─── */
 const ST={aba:'ele',stab:{ele:'entradas',ela:'entradas',casal:'fixas'},emoji:'💰',vy:TODAY_Y,vm:TODAY_M};
@@ -785,6 +785,9 @@ function getContasMes(aba,y,m){
     const inst=getInst(y,m,r.id,aba);
     if(!inst.confirmed)continue;
     const val=aba==='ele'?r.ele:r.ela;
+    // Mês atual: pular contas pendentes cujo dia já passou
+    const _hoje=new Date();const _isCurr=(y===TODAY_Y&&m===TODAY_M);
+    if(_isCurr&&r.day<_hoje.getDate()&&!inst.pago)continue;
     const dateStr=`${y}-${String(m+1).padStart(2,'0')}-${String(r.day).padStart(2,'0')}`;
     rec.push({id:`R_${r.id}`,recId:r.id,emoji:r.emoji,desc:r.desc,val,cat:r.cat,data:dateStr,pago:inst.pago,isRec:true});
   }
@@ -835,8 +838,32 @@ function renderPessoa(m,aba){
     <button class="pill${st==='saidas'?' on':''}" onclick="setStab('saidas')">Saídas</button>
     <button class="pill${st==='futuras'?' on':''}" onclick="setStab('futuras')">A pagar</button>
   </div>
-  <div class="ilist">${st==='entradas'?rLista(d.entradas,'e',aba):st==='saidas'?rLista(d.saidas,'s',aba):rContasMes(contas,aba)}</div>
+  <div class="ilist">${st==='entradas'?rLista(d.entradas,'e',aba):st==='saidas'?rListaSaidas(d.saidas,contas,aba):rContasMes(contas.filter(i=>!i.pago),aba)}</div>
 </div>`;
+}
+
+function rListaSaidas(saidas, contas, aba){
+  // Saídas avulsas + contas pagas deste mês
+  const contasPagas=contas.filter(i=>i.pago);
+  const cor=aba==='ele'?'var(--G)':'var(--P)';
+  if(!saidas.length&&!contasPagas.length)return'<div class="empty">Nenhuma saída ainda</div>';
+  const avulsasHtml=saidas.map(i=>`
+<div class="item">
+  <div class="ico">${i.emoji||'💰'}</div>
+  <div class="ii"><div class="id">${i.desc}</div><div class="im">${i.cat} · ${fmtD(i.data)}</div></div>
+  <div class="iv vr">−${fmt(i.val)}</div>
+  <div class="iact"><button class="iab ed" onclick='openEdit("${aba}","saidas",${i.id})'>✎</button><button class="iab dl" onclick='delItem("${aba}","saidas",${i.id})'>✕</button></div>
+</div>`).join('');
+  const pagasHtml=contasPagas.length?`
+<div style="font-size:10px;color:var(--txt3);text-transform:uppercase;letter-spacing:.5px;font-weight:600;padding:8px 0 4px;margin-top:4px;border-top:.5px solid var(--sep)">Contas pagas este mês</div>
+${contasPagas.map(i=>`
+<div class="item" style="opacity:.75">
+  <div class="ico">${i.emoji||'📋'}</div>
+  <div class="ii"><div class="id">${i.desc}<span class="bdg bpg">pago</span></div><div class="im">${i.cat} · ${fmtD(i.data)}</div></div>
+  <div class="iv vr">−${fmt(i.val)}</div>
+  <div class="futa"><button class="mpb ud" onclick="desfazPago('${aba}','${i.id}','${i.recId||''}',${i.val})">↩</button></div>
+</div>`).join('')}`:'';
+  return avulsasHtml+pagasHtml;
 }
 
 function rLista(items,t,aba){
@@ -1223,8 +1250,10 @@ function openEditPig(id){
 <div class="r2"><div><label>Meta (valor alvo)</label><input id="pe-meta" type="number" value="${it.meta||''}" placeholder="0,00"></div><div><label>Data alvo</label><input id="pe-prazo" type="date" value="${it.prazo||''}"></div></div>
 <div class="mbtns">
   <button class="ab abgr" onclick="closeModal()">Cancelar</button>
-  <button class="ab abr" style="flex:0;padding:13px 16px" onclick="delPig(${id})">🗑</button>
   <button class="ab abg" onclick="saveEditPig(${id})">Salvar</button>
+</div>
+<div style="text-align:center;margin-top:2px">
+  <button onclick="delPig(${id})" style="font-size:11px;color:var(--txt4);background:none;border:none;cursor:pointer;padding:4px 8px" onmouseover="this.style.color='var(--R)'" onmouseout="this.style.color='var(--txt4)'">excluir esta reserva</button>
 </div>`);
 }
 
@@ -1278,7 +1307,7 @@ function confirmPig(id){
     it.val-=val;
     DB.movimentos.push({id:uid(),tipo:'resgatar',reserva:it.id,quem:back,val,data:dt,obs:document.getElementById('pig-note')?.value||''});
   }
-  closeModal();render();
+  saveDB();saveCloudDebounced();closeModal();render();
 }
 
 /* ══════════════════════════════════════
@@ -1965,6 +1994,7 @@ function setEspTipo(tipo){
   }
 }
 
+
 function openModal(tipo,aba){
   const emojis=tipo==='entrada'?EENT:tipo==='nova_res'?ERES:ESAI;
   ST.emoji=emojis[0];
@@ -1974,6 +2004,7 @@ function openModal(tipo,aba){
   if(tipo==='fixo'){
     body=`<div class="r2"><div><label>Total</label><input id="m-tot" type="number" placeholder="0,00" oninput="cd('m')"></div><div><label>Dia vencimento</label><input id="m-day" type="number" min="1" max="31" placeholder="25"></div></div>
 <div class="r2"><div><label>👨🏻‍🦲 Ele paga</label><input id="m-ele" type="number" placeholder="0,00" oninput="cla('m')"></div><div><label>👩🏻‍🦱 Ela paga</label><input id="m-ela" type="number" placeholder="0,00" oninput="cle('m')"></div></div>
+<div><label>Categoria</label><select id="m-cat-fixo">${CSAI.map(c=>`<option>${c}</option>`).join('')}</select></div>
 <div class="mnote">🔁 Aparece como template. No próximo mês, você confirma se vai acontecer.</div>`;
   } else if(tipo==='esporadico'){
     body=`
@@ -1984,7 +2015,8 @@ function openModal(tipo,aba){
 <div id="esp-tipo-hint" style="font-size:11px;color:var(--R);background:var(--Rbg);border-radius:var(--rx);padding:7px 10px">⚡ Desconta do saldo agora e entra em Saídas de cada um.</div>
 <div class="r2"><div><label>Total</label><input id="m-tot" type="number" placeholder="0,00" oninput="cd('m')"></div><div><label>Data</label><input id="m-dt" type="date" value="${todayISO()}"></div></div>
 <div><label>Quem pagou / vai pagar</label><select id="m-quem" onchange="togDiv()"><option>Ambos</option><option>Só ele</option><option>Só ela</option></select></div>
-<div class="r2"><div><label>👨🏻‍🦲 Ele</label><input id="m-ele" type="number" placeholder="0,00" oninput="cla('m')"></div><div><label>👩🏻‍🦱 Ela</label><input id="m-ela" type="number" placeholder="0,00" oninput="cle('m')"></div></div>`;
+<div class="r2"><div><label>👨🏻‍🦲 Ele</label><input id="m-ele" type="number" placeholder="0,00" oninput="cla('m')"></div><div><label>👩🏻‍🦱 Ela</label><input id="m-ela" type="number" placeholder="0,00" oninput="cle('m')"></div></div>
+<div><label>Categoria</label><select id="m-cat-esp">${CSAI.map(c=>`<option>${c}</option>`).join('')}</select></div>`;
   } else if(tipo==='nova_res'){
     body=`<div><label>Quem</label><select id="m-quem-res"><option>👨🏻‍🦲 Ele</option><option>👩🏻‍🦱 Ela</option><option>Casal</option></select></div>
 <div class="r2"><div><label>Valor inicial</label><input id="m-val-res" type="number" placeholder="0,00"></div><div><label>Banco / carteira</label><input id="m-banco-res" type="text" placeholder="Nubank..."></div></div>
@@ -2012,7 +2044,8 @@ function saveModal(tipo,aba){
   } else if(tipo==='fixo'){
     const tot=parseFloat(document.getElementById('m-tot')?.value)||0,ele=parseFloat(document.getElementById('m-ele')?.value)||0,ela=parseFloat(document.getElementById('m-ela')?.value)||0,day=parseInt(document.getElementById('m-day')?.value)||25;
     const newId=uid();
-    DB.casal.recorrentes.push({id:newId,emoji,desc,total:tot,ele,ela,cat:'Moradia',day});
+    const catFixo=document.getElementById('m-cat-fixo')?.value||'Moradia';
+    DB.casal.recorrentes.push({id:newId,emoji,desc,total:tot,ele,ela,cat:catFixo,day});
     // confirma para mês atual só se o dia ainda não passou; próximo mês sempre confirma
     const _todayDay=new Date().getDate();
     const _currOk=day>=_todayDay;
@@ -2025,7 +2058,8 @@ function saveModal(tipo,aba){
     const tot=parseFloat(document.getElementById('m-tot')?.value)||0,ele=parseFloat(document.getElementById('m-ele')?.value)||0,ela=parseFloat(document.getElementById('m-ela')?.value)||0,dt=document.getElementById('m-dt')?.value||todayISO();
     const q=document.getElementById('m-quem')?.value||'Ambos',quem=q.includes('ele')?'Ele':q.includes('ela')?'Ela':'Ambos';
     const tipoEsp=document.getElementById('ett-prog')?.classList.contains('on-programado')?'programado':'imediato';
-    const item={id:uid(),emoji,desc,val:tot,ele,ela,cat:'Lazer',data:dt,quem,tipo:tipoEsp,pago:false};
+    const catEsp=document.getElementById('m-cat-esp')?.value||'Lazer';
+    const item={id:uid(),emoji,desc,val:tot,ele,ela,cat:catEsp,data:dt,quem,tipo:tipoEsp,pago:false};
     DB.casal.esporadicas.push(item);
     if(tipoEsp==='imediato'){
       aplicaEspSaldo(item,-1); // desconta saldo imediatamente
@@ -2041,8 +2075,14 @@ function saveModal(tipo,aba){
     const meta=money(document.getElementById('m-meta-res')?.value||0);
     const prazo=document.getElementById('m-prazo-res')?.value||'';
     DB.eco.push({id:uid(),emoji,desc,val,banco,objetivo,quem,meta,prazo});
+    // Descontar do saldo de quem guardou o valor inicial
+    if(val>0){
+      if(quem==='Ele') DB.ele.saldo-=val;
+      else if(quem==='Ela') DB.ela.saldo-=val;
+      else { DB.ele.saldo-=val/2; DB.ela.saldo-=val/2; } // Casal: divide
+    }
   }
-  closeModal();render();
+  saveDB();saveCloudDebounced();closeModal();render();
 }
 
 /* ─── DIV HELPERS ─── */

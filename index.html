@@ -410,6 +410,20 @@ input:focus,select:focus{border-color:var(--G);box-shadow:0 0 0 3px var(--Gbg)}
 .chart-tab{padding:5px 12px;border-radius:20px;border:.5px solid var(--sep);background:transparent;font-size:12px;color:var(--txt3);cursor:pointer;transition:var(--tr)}
 .chart-tab:hover{border-color:var(--G);color:var(--G)}
 .chart-tab.on{background:var(--G);color:#fff;border-color:var(--G)}
+
+/* ─── ESPORÁDICO TIPO ─── */
+.esp-tipo-toggle{display:flex;gap:0;border-radius:var(--rs);overflow:hidden;border:.5px solid var(--sep)}
+.ett{flex:1;padding:10px;border:none;background:transparent;font-size:13px;font-weight:500;color:var(--txt3);cursor:pointer;transition:var(--tr);display:flex;align-items:center;justify-content:center;gap:5px}
+.ett.on-imediato{background:var(--R);color:#fff}
+.ett.on-programado{background:var(--O);color:#fff}
+
+/* ─── SYNC BUTTON ─── */
+.hbtn-sync{position:relative}
+.hbtn-sync .sync-icon{display:inline-block;transition:transform .6s ease}
+.hbtn-sync.syncing .sync-icon{animation:spin .7s linear infinite}
+.hbtn-sync.ok .sync-icon{color:var(--G)}
+.hbtn-sync.err .sync-icon{color:var(--R)}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
@@ -451,7 +465,9 @@ input:focus,select:focus{border-color:var(--G);box-shadow:0 0 0 3px var(--Gbg)}
     <div class="hacts">
       <button class="hbtn" id="dkbtn" onclick="toggleDark()" title="Modo escuro">🌙</button>
       <button class="hbtn hia" onclick="openIA()">✦ IA</button>
-
+      <button class="hbtn hbtn-sync" id="sync-btn" onclick="syncNow()" title="Sincronizar dados com o servidor">
+        <span class="sync-icon" style="font-size:16px">&#8635;</span>
+      </button>
       <button class="hbtn" onclick="logout()" style="font-size:12px">Sair</button>
     </div>
   </div>
@@ -587,6 +603,24 @@ function loadDB(){
   try{const raw=localStorage.getItem(STORAGE.data);return normalizeDB(raw?JSON.parse(raw):createDefaultDB());}
   catch(e){console.warn('Dados locais corrompidos. Usando base inicial.',e);return createDefaultDB();}
 }
+async function syncNow(){
+  const btn=document.getElementById('sync-btn');
+  if(!btn||!getToken())return;
+  // Estado visual: girando
+  btn.className='hbtn hbtn-sync syncing';
+  try{
+    await loadRemoteState();
+    render();
+    // Feedback de sucesso
+    btn.className='hbtn hbtn-sync ok';
+    setTimeout(()=>btn.className='hbtn hbtn-sync',1800);
+  }catch(e){
+    // Feedback de erro
+    btn.className='hbtn hbtn-sync err';
+    setTimeout(()=>btn.className='hbtn hbtn-sync',2000);
+  }
+}
+
 async function loadRemoteState(){
   isLoadingRemote=true;
   try{
@@ -767,11 +801,14 @@ function renderPessoa(m,aba){
   const d=DB[aba];
   const cor=aba==='ele'?'var(--G)':'var(--P)';
   const avt=aba==='ele'?'👨🏻‍🦲':'👩🏻‍🦱';
-  const tE=d.entradas.reduce((s,i)=>s+i.val,0);
-  const tS=d.saidas.reduce((s,i)=>s+i.val,0);
+  const tE=d.entradas.reduce((s,i)=>s+i.val,0)
+  const tSavulso=d.saidas.reduce((s,i)=>s+i.val,0);
   const contas=getContasMes(aba,TODAY_Y,TODAY_M);
+  const tContasPagas=contas.filter(i=>i.pago).reduce((s,i)=>s+i.val,0);
   const tF=contas.filter(i=>!i.pago).reduce((s,i)=>s+i.val,0);
+  const tS=tSavulso+tContasPagas;
   const pct=tE>0?Math.min(Math.round((tS/tE)*100),100):0;
+  const proj=d.saldo-tF;
   const st=ST.stab[aba];
   m.innerHTML=`
 <div class="gc">
@@ -784,7 +821,7 @@ function renderPessoa(m,aba){
   </div>
   <div class="prog">
     <div class="pt"><div class="pf" style="width:${pct}%;background:${cor}"></div></div>
-    <div class="pl">${tE>0?pct+'% gasto · ':''}projeção fim do mês: <strong style="color:${(d.saldo-tF)<0?'var(--R)':''}"> ${fmtSaldo(d.saldo-tF)}</strong></div>
+    <div class="pl">${tE>0?pct+'% das entradas gastas · ':''}projeção: <strong style="color:${proj<0?'var(--R)':''}">${fmtSaldo(proj)}</strong></div>
   </div>
 </div>
 <div class="acts">
@@ -933,11 +970,23 @@ function rFixas(items){
 }
 function rEsp(items){
   if(!items.length)return'<div class="empty">Nenhum esporádico</div>';
-  return items.map(i=>`
+  return items.map(i=>{
+    const isProg=i.tipo==='programado';
+    const tipoBdg=isProg
+      ?`<span class="bdg" style="background:var(--Obg);color:var(--O)">⏳ programado</span>`
+      :`<span class="bdg" style="background:var(--Rbg);color:var(--R)">⚡ imediato</span>`;
+    // Para programados: botões de pagar/desfazer
+    const progBtns=isProg?`
+<div style="display:flex;gap:6px;margin-top:8px;justify-content:flex-end">
+  ${!i.pago
+    ?`<button class="mpb pg" onclick="pagarEspProg(${i.id})">✓ pago</button>`
+    :`<span class="bdg bpg">pago ✓</span><button class="mpb ud" onclick="desfazEspProg(${i.id})">↩ desfazer</button>`}
+</div>`:'';
+    return`
 <div style="padding:9px 0;border-bottom:.5px solid var(--sep)">
   <div style="display:flex;align-items:center;gap:11px">
     <div class="ico">${i.emoji}</div>
-    <div class="ii"><div class="id">${i.desc}<span class="bdg binf">${i.quem}</span></div><div class="im">${i.cat} · ${fmtD(i.data)}</div></div>
+    <div class="ii"><div class="id">${i.desc}<span class="bdg binf">${i.quem}</span>${tipoBdg}</div><div class="im">${i.cat} · ${fmtD(i.data)}</div></div>
     <div class="iv vr">−${fmt(i.val)}</div>
     <div class="iact"><button class="iab ed" onclick="openEditEsp(${i.id})">✎</button><button class="iab dl" onclick="delEsp(${i.id})">✕</button></div>
   </div>
@@ -945,22 +994,81 @@ function rEsp(items){
     <div class="dbox"><div class="dl">👨🏻‍🦲 Ele</div><div class="dv vg">${i.ele>0?fmt(i.ele):'—'}</div></div>
     <div class="dbox"><div class="dl">👩🏻‍🦱 Ela</div><div class="dv vp">${i.ela>0?fmt(i.ela):'—'}</div></div>
   </div>
-</div>`).join('');
+  ${progBtns}
+</div>`;}).join('');
 }
 function aplicaEspSaldo(i,dir=-1){
-  const mult=dir; // -1 desconta, +1 devolve
-  if(!i)return;
+  // Só aplica no saldo se for imediato
+  if(!i||i.tipo==='programado')return;
+  const mult=dir;
   if(i.quem==='Ambos'){DB.ele.saldo+=mult*money(i.ele);DB.ela.saldo+=mult*money(i.ela);}
   else if(i.quem==='Ele'){DB.ele.saldo+=mult*money(i.val);}
   else if(i.quem==='Ela'){DB.ela.saldo+=mult*money(i.val);}
+}
+
+/* Criar futuras avulsas individuais para esporádico programado */
+function criaFuturasEspProg(i){
+  const dateStr=i.data||todayISO();
+  if((i.quem==='Ambos'||i.quem==='Ele')&&i.ele>0){
+    DB.ele.futuras.push({id:uid(),emoji:i.emoji,desc:i.desc+' (casal)',val:money(i.ele),cat:i.cat,data:dateStr,pago:false,espId:i.id});
+  }
+  if((i.quem==='Ambos'||i.quem==='Ela')&&i.ela>0){
+    DB.ela.futuras.push({id:uid(),emoji:i.emoji,desc:i.desc+' (casal)',val:money(i.ela),cat:i.cat,data:dateStr,pago:false,espId:i.id});
+  }
+}
+
+/* Remove futuras avulsas ligadas a um esporádico programado */
+function removeFuturasEspProg(espId){
+  DB.ele.futuras=DB.ele.futuras.filter(f=>f.espId!==espId);
+  DB.ela.futuras=DB.ela.futuras.filter(f=>f.espId!==espId);
+}
+
+/* Pagar esporádico programado — desconta saldo de cada um */
+function pagarEspProg(id){
+  const i=DB.casal.esporadicas.find(x=>x.id===id);
+  if(!i||i.tipo!=='programado'||i.pago)return;
+  i.pago=true;
+  // Desconta saldo de cada um
+  if(i.quem==='Ambos'){DB.ele.saldo-=money(i.ele);DB.ela.saldo-=money(i.ela);}
+  else if(i.quem==='Ele')DB.ele.saldo-=money(i.val);
+  else DB.ela.saldo-=money(i.val);
+  // Marca as futuras avulsas como pagas também
+  DB.ele.futuras.filter(f=>f.espId===id).forEach(f=>{f.pago=true;});
+  DB.ela.futuras.filter(f=>f.espId===id).forEach(f=>{f.pago=true;});
+  saveDB();saveCloudDebounced();render();
+}
+
+/* Desfazer pagamento de esporádico programado */
+function desfazEspProg(id){
+  const i=DB.casal.esporadicas.find(x=>x.id===id);
+  if(!i||!i.pago)return;
+  i.pago=false;
+  if(i.quem==='Ambos'){DB.ele.saldo+=money(i.ele);DB.ela.saldo+=money(i.ela);}
+  else if(i.quem==='Ele')DB.ele.saldo+=money(i.val);
+  else DB.ela.saldo+=money(i.val);
+  DB.ele.futuras.filter(f=>f.espId===id).forEach(f=>{f.pago=false;});
+  DB.ela.futuras.filter(f=>f.espId===id).forEach(f=>{f.pago=false;});
+  saveDB();saveCloudDebounced();render();
 }
 function delRec(id){if(!confirm('Excluir conta fixa?'))return;DB.casal.recorrentes=DB.casal.recorrentes.filter(x=>x.id!==id);render();}
 function delEsp(id){
   if(!confirm('Excluir?'))return;
   const it=DB.casal.esporadicas.find(x=>x.id===id);
-  aplicaEspSaldo(it,+1);
+  if(it){
+    if(it.tipo==='programado'){
+      // Se já foi pago, devolve; se ainda não, só remove as futuras
+      if(it.pago){
+        if(it.quem==='Ambos'){DB.ele.saldo+=money(it.ele);DB.ela.saldo+=money(it.ela);}
+        else if(it.quem==='Ele')DB.ele.saldo+=money(it.val);
+        else DB.ela.saldo+=money(it.val);
+      }
+      removeFuturasEspProg(id);
+    } else {
+      aplicaEspSaldo(it,+1); // imediato: devolve saldo
+    }
+  }
   DB.casal.esporadicas=DB.casal.esporadicas.filter(x=>x.id!==id);
-  render();
+  saveDB();saveCloudDebounced();render();
 }
 function openEditRec(id){
   const i=DB.casal.recorrentes.find(x=>x.id===id);if(!i)return;ST.emoji=i.emoji;
@@ -980,7 +1088,14 @@ function saveRec(id){
 }
 function openEditEsp(id){
   const i=DB.casal.esporadicas.find(x=>x.id===id);if(!i)return;ST.emoji=i.emoji;
+  const isProg=i.tipo==='programado';
   showModal(`<div class="mh"></div><h3>Editar esporádico</h3>
+<div style="display:flex;gap:8px;margin-bottom:4px">
+  <span class="bdg" style="background:${isProg?'var(--Obg)':'var(--Rbg)'};color:${isProg?'var(--O)':'var(--R)'}">
+    ${isProg?'⏳ Programado':'⚡ Imediato'}
+  </span>
+  <span style="font-size:11px;color:var(--txt3);align-self:center">Tipo não pode ser alterado após criação</span>
+</div>
 <div><label>Descrição</label><input id="ee-desc" value="${i.desc}"></div>
 <div><label>Ícone</label><div class="epw"><div class="epprev" id="ep-prev">${i.emoji}</div><div class="epscrl">${ESAI.map(e=>`<button class="epb${e===i.emoji?' on':''}" onclick="pickE('${e}',this)">${e}</button>`).join('')}</div></div></div>
 <div class="r2"><div><label>Total</label><input id="ee-tot" type="number" value="${i.val}" oninput="cd('ee')"></div><div><label>Data</label><input id="ee-dt" type="date" value="${i.data}"></div></div>
@@ -1832,6 +1947,24 @@ function saveEmp(tipo){
 }
 
 
+function setEspTipo(tipo){
+  const bi=document.getElementById('ett-imed');
+  const bp=document.getElementById('ett-prog');
+  const hint=document.getElementById('esp-tipo-hint');
+  if(!bi||!bp)return;
+  bi.className='ett'+(tipo==='imediato'?' on-imediato':'');
+  bp.className='ett'+(tipo==='programado'?' on-programado':'');
+  if(hint){
+    if(tipo==='imediato'){
+      hint.style.color='var(--R)';hint.style.background='var(--Rbg)';
+      hint.textContent='⚡ Desconta do saldo agora e entra em Saídas de cada um.';
+    } else {
+      hint.style.color='var(--O)';hint.style.background='var(--Obg)';
+      hint.textContent='⏳ Entra em "A pagar" de cada um. Só desconta quando marcar como pago.';
+    }
+  }
+}
+
 function openModal(tipo,aba){
   const emojis=tipo==='entrada'?EENT:tipo==='nova_res'?ERES:ESAI;
   ST.emoji=emojis[0];
@@ -1843,8 +1976,14 @@ function openModal(tipo,aba){
 <div class="r2"><div><label>👨🏻‍🦲 Ele paga</label><input id="m-ele" type="number" placeholder="0,00" oninput="cla('m')"></div><div><label>👩🏻‍🦱 Ela paga</label><input id="m-ela" type="number" placeholder="0,00" oninput="cle('m')"></div></div>
 <div class="mnote">🔁 Aparece como template. No próximo mês, você confirma se vai acontecer.</div>`;
   } else if(tipo==='esporadico'){
-    body=`<div class="r2"><div><label>Total</label><input id="m-tot" type="number" placeholder="0,00" oninput="cd('m')"></div><div><label>Data</label><input id="m-dt" type="date" value="${todayISO()}"></div></div>
-<div><label>Quem pagou</label><select id="m-quem" onchange="togDiv()"><option>Ambos</option><option>Só ele</option><option>Só ela</option></select></div>
+    body=`
+<div class="esp-tipo-toggle" style="margin-bottom:2px">
+  <button class="ett on-imediato" id="ett-imed" onclick="setEspTipo('imediato')">⚡ Imediato</button>
+  <button class="ett" id="ett-prog" onclick="setEspTipo('programado')">⏳ Programado</button>
+</div>
+<div id="esp-tipo-hint" style="font-size:11px;color:var(--R);background:var(--Rbg);border-radius:var(--rx);padding:7px 10px">⚡ Desconta do saldo agora e entra em Saídas de cada um.</div>
+<div class="r2"><div><label>Total</label><input id="m-tot" type="number" placeholder="0,00" oninput="cd('m')"></div><div><label>Data</label><input id="m-dt" type="date" value="${todayISO()}"></div></div>
+<div><label>Quem pagou / vai pagar</label><select id="m-quem" onchange="togDiv()"><option>Ambos</option><option>Só ele</option><option>Só ela</option></select></div>
 <div class="r2"><div><label>👨🏻‍🦲 Ele</label><input id="m-ele" type="number" placeholder="0,00" oninput="cla('m')"></div><div><label>👩🏻‍🦱 Ela</label><input id="m-ela" type="number" placeholder="0,00" oninput="cle('m')"></div></div>`;
   } else if(tipo==='nova_res'){
     body=`<div><label>Quem</label><select id="m-quem-res"><option>👨🏻‍🦲 Ele</option><option>👩🏻‍🦱 Ela</option><option>Casal</option></select></div>
@@ -1885,8 +2024,14 @@ function saveModal(tipo,aba){
   } else if(tipo==='esporadico'){
     const tot=parseFloat(document.getElementById('m-tot')?.value)||0,ele=parseFloat(document.getElementById('m-ele')?.value)||0,ela=parseFloat(document.getElementById('m-ela')?.value)||0,dt=document.getElementById('m-dt')?.value||todayISO();
     const q=document.getElementById('m-quem')?.value||'Ambos',quem=q.includes('ele')?'Ele':q.includes('ela')?'Ela':'Ambos';
-    const item={id:uid(),emoji,desc,val:tot,ele,ela,cat:'Lazer',data:dt,quem};
-    DB.casal.esporadicas.push(item);aplicaEspSaldo(item,-1);
+    const tipoEsp=document.getElementById('ett-prog')?.classList.contains('on-programado')?'programado':'imediato';
+    const item={id:uid(),emoji,desc,val:tot,ele,ela,cat:'Lazer',data:dt,quem,tipo:tipoEsp,pago:false};
+    DB.casal.esporadicas.push(item);
+    if(tipoEsp==='imediato'){
+      aplicaEspSaldo(item,-1); // desconta saldo imediatamente
+    } else {
+      criaFuturasEspProg(item); // cria "a pagar" nos individuais
+    }
   } else if(tipo==='nova_res'){
     const rawQuem=document.getElementById('m-quem-res')?.value||'Casal';
     const quem=rawQuem.includes('Ele')?'Ele':rawQuem.includes('Ela')?'Ela':'Casal';

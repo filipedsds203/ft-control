@@ -420,6 +420,7 @@ input:focus,select:focus{border-color:var(--G);box-shadow:0 0 0 3px var(--Gbg)}
 
 /* ─── UTILS ─── */
 const fmt=v=>'R$\u00a0'+Math.abs(v).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+const fmtSaldo=v=>(v<0?'−':'')+'R$\u00a0'+Math.abs(v).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
 const fmtD=d=>new Date(d+'T12:00').toLocaleDateString('pt-BR',{day:'2-digit',month:'short'});
 const MNAMES=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 let _id=200;const uid=()=>++_id;
@@ -539,11 +540,20 @@ function syncIds(){
   _id=Math.max(200,...ids);
 }
 function ensureCurrentMonthInstances(){
+  const todayDay=new Date().getDate();
+  const nextM=TODAY_M===11?0:TODAY_M+1;
+  const nextY=TODAY_M===11?TODAY_Y+1:TODAY_Y;
   for(const r of DB.casal.recorrentes){
+    // Mês atual: só confirmar se o dia de vencimento ainda não passou
     const ke=`${TODAY_Y}_${TODAY_M}_${r.id}_ele`;
     const kl=`${TODAY_Y}_${TODAY_M}_${r.id}_ela`;
-    if(!DB.instancias[ke])DB.instancias[ke]={confirmed:true,pago:false};
-    if(!DB.instancias[kl])DB.instancias[kl]={confirmed:true,pago:false};
+    if(!DB.instancias[ke])DB.instancias[ke]={confirmed:r.day>=todayDay,pago:false};
+    if(!DB.instancias[kl])DB.instancias[kl]={confirmed:r.day>=todayDay,pago:false};
+    // Próximo mês: confirmar automaticamente (pode cancelar manualmente)
+    const kne=`${nextY}_${nextM}_${r.id}_ele`;
+    const knl=`${nextY}_${nextM}_${r.id}_ela`;
+    if(!DB.instancias[kne])DB.instancias[kne]={confirmed:true,pago:false};
+    if(!DB.instancias[knl])DB.instancias[knl]={confirmed:true,pago:false};
   }
 }
 let DB=loadDB();
@@ -695,7 +705,7 @@ function renderPessoa(m,aba){
   m.innerHTML=`
 <div class="gc">
   <div class="glbl">Saldo — ${avt} ${aba==='ele'?'Ele':'Ela'}</div>
-  <div class="saldo" style="color:${cor}">${fmt(d.saldo)}</div>
+  <div class="saldo" style="color:${cor}">${fmtSaldo(d.saldo)}</div>
   <div class="srow">
     <div class="sc"><div class="sl">↑ Entradas</div><div class="sv vg">${fmt(tE)}</div></div>
     <div class="sc"><div class="sl">↓ Saídas</div><div class="sv vr">${fmt(tS)}</div></div>
@@ -703,7 +713,7 @@ function renderPessoa(m,aba){
   </div>
   <div class="prog">
     <div class="pt"><div class="pf" style="width:${pct}%;background:${cor}"></div></div>
-    <div class="pl">${pct}% gasto · projeção fim do mês: <strong>${fmt(d.saldo-tF)}</strong></div>
+    <div class="pl">${pct}% gasto · projeção fim do mês: <strong>${fmtSaldo(d.saldo-tF)}</strong></div>
   </div>
 </div>
 <div class="acts">
@@ -1074,11 +1084,50 @@ ${curr?renderMesCurrent(byDay,y,mo):next?renderMesNext(y,mo):renderMesPast(byDay
 }
 
 /* Mês atual: timeline de contas */
+let mesFilter='todos'; // 'todos','ele','ela'
+function setMesFilter(f){mesFilter=f;render();}
+
 function renderMesCurrent(byDay,y,mo){
-  const dias=Object.keys(byDay).sort();
-  if(!dias.length)return'<div class="gc"><div class="empty">Nenhuma conta configurada para este mês</div></div>';
-  const items=dias.map((dk,idx)=>{
-    const contas=byDay[dk];
+  // Filtrar por pessoa se necessário
+  const filtered={};
+  for(const [dk,contas] of Object.entries(byDay)){
+    const f=contas.filter(c=>mesFilter==='todos'||c.aba===mesFilter);
+    if(f.length)filtered[dk]=f;
+  }
+
+  // Totais para o resumo individual
+  const allContas=Object.values(byDay).flat();
+  const eleTotal=allContas.filter(c=>c.aba==='ele').reduce((s,c)=>s+c.val,0);
+  const elaTotal=allContas.filter(c=>c.aba==='ela').reduce((s,c)=>s+c.val,0);
+  const elePago=allContas.filter(c=>c.aba==='ele'&&c.pago).reduce((s,c)=>s+c.val,0);
+  const elaPago=allContas.filter(c=>c.aba==='ela'&&c.pago).reduce((s,c)=>s+c.val,0);
+  const elePend=eleTotal-elePago;
+  const elaPend=elaTotal-elaPago;
+
+  const pillsHtml=`
+<div style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap">
+  <button class="pill${mesFilter==='todos'?' on':''}" onclick="setMesFilter('todos')">Todos</button>
+  <button class="pill${mesFilter==='ele'?' on':''}" style="${mesFilter==='ele'?'':'border-color:var(--G);color:var(--G)'}" onclick="setMesFilter('ele')">👨🏻‍🦲 Ele</button>
+  <button class="pill${mesFilter==='ela'?' on':''}" style="${mesFilter==='ela'?'':'border-color:var(--P);color:var(--P)'}" onclick="setMesFilter('ela')">👩🏻‍🦱 Ela</button>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
+  <div class="sbox" style="border-left:3px solid var(--G)">
+    <div class="sbox-l">👨🏻‍🦲 Ele paga</div>
+    <div class="sbox-v" style="font-size:16px;color:var(--G)">${fmt(eleTotal)}</div>
+    <div style="font-size:10px;color:var(--txt3);margin-top:2px">${fmt(elePago)} pago · ${fmt(elePend)} pendente</div>
+  </div>
+  <div class="sbox" style="border-left:3px solid var(--P)">
+    <div class="sbox-l">👩🏻‍🦱 Ela paga</div>
+    <div class="sbox-v" style="font-size:16px;color:var(--P)">${fmt(elaTotal)}</div>
+    <div style="font-size:10px;color:var(--txt3);margin-top:2px">${fmt(elaPago)} pago · ${fmt(elaPend)} pendente</div>
+  </div>
+</div>`;
+
+  const dias=Object.keys(filtered).sort();
+  if(!dias.length)return`<div class="gc">${pillsHtml}<div class="empty">Nenhuma conta ${mesFilter==='todos'?'':mesFilter==='ele'?'para ele':'para ela'} neste mês</div></div>`;
+
+  const items=dias.map((dk)=>{
+    const contas=filtered[dk];
     const allPago=contas.every(c=>c.pago);
     const dotColor=allPago?'var(--G)':'var(--O)';
     const cards=contas.map(c=>`
@@ -1109,7 +1158,7 @@ function renderMesCurrent(byDay,y,mo){
 </div>`;
   }).join('');
 
-  return`<div class="gc"><div class="glbl">Calendário de pagamentos</div><div class="timeline">${items}</div></div>`;
+  return`<div class="gc"><div class="glbl">Calendário de pagamentos</div>${pillsHtml}<div class="timeline">${items}</div></div>`;
 }
 
 /* Próximo mês: confirmação manual */
@@ -1147,13 +1196,26 @@ function renderMesNext(y,mo){
 </div>`;
   }).join('');
 
+  // Calcular totais individuais confirmados
+  const eleConf=recs.reduce((s,r)=>{const i=getInst(y,mo,r.id,'ele');return s+(i.confirmed?r.ele:0);},0);
+  const elaConf=recs.reduce((s,r)=>{const i=getInst(y,mo,r.id,'ela');return s+(i.confirmed?r.ela:0);},0);
+
   return`<div class="gc">
   <div class="glbl">Confirmar para ${MNAMES[mo]}</div>
   <div class="mnote" style="margin-bottom:12px">Marque quais contas vão acontecer no próximo mês. As confirmadas aparecem como "a pagar" a partir de 1º de ${MNAMES[mo]}.</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
+    <div class="sbox" style="border-left:3px solid var(--G)">
+      <div class="sbox-l">👨🏻‍🦲 Ele previsto</div>
+      <div class="sbox-v" style="font-size:16px;color:var(--G)">${fmt(eleConf)}</div>
+    </div>
+    <div class="sbox" style="border-left:3px solid var(--P)">
+      <div class="sbox-l">👩🏻‍🦱 Ela previsto</div>
+      <div class="sbox-v" style="font-size:16px;color:var(--P)">${fmt(elaConf)}</div>
+    </div>
+  </div>
   <div class="confirm-list">${rows}</div>
-  ${confirmadas>0?`<div class="confirm-footer" style="margin-top:12px">✅ ${confirmadas} conta${confirmadas>1?'s':''} confirmada${confirmadas>1?'s':''} · Total previsto: ${fmt(totalConfirmado)}</div>`:''}
-</div>`;
-}
+  ${confirmadas>0?`<div class="confirm-footer" style="margin-top:12px">✅ ${confirmadas} conta${confirmadas>1?'s':''} confirmada${confirmadas>1?'s':''} · Total conjunto: ${fmt(eleConf+elaConf)}</div>`:''}
+</div>`;}
 
 function toggleInst(y,m,recId,aba){
   const inst=getInst(y,m,recId,aba);
@@ -1218,9 +1280,14 @@ function saveModal(tipo,aba){
     const tot=parseFloat(document.getElementById('m-tot')?.value)||0,ele=parseFloat(document.getElementById('m-ele')?.value)||0,ela=parseFloat(document.getElementById('m-ela')?.value)||0,day=parseInt(document.getElementById('m-day')?.value)||25;
     const newId=uid();
     DB.casal.recorrentes.push({id:newId,emoji,desc,total:tot,ele,ela,cat:'Moradia',day});
-    // confirma para mês atual automaticamente
-    DB.instancias[`${TODAY_Y}_${TODAY_M}_${newId}_ele`]={confirmed:true,pago:false};
-    DB.instancias[`${TODAY_Y}_${TODAY_M}_${newId}_ela`]={confirmed:true,pago:false};
+    // confirma para mês atual só se o dia ainda não passou; próximo mês sempre confirma
+    const _todayDay=new Date().getDate();
+    const _currOk=day>=_todayDay;
+    DB.instancias[`${TODAY_Y}_${TODAY_M}_${newId}_ele`]={confirmed:_currOk,pago:false};
+    DB.instancias[`${TODAY_Y}_${TODAY_M}_${newId}_ela`]={confirmed:_currOk,pago:false};
+    const _nm=TODAY_M===11?0:TODAY_M+1,_ny=TODAY_M===11?TODAY_Y+1:TODAY_Y;
+    DB.instancias[`${_ny}_${_nm}_${newId}_ele`]={confirmed:true,pago:false};
+    DB.instancias[`${_ny}_${_nm}_${newId}_ela`]={confirmed:true,pago:false};
   } else if(tipo==='esporadico'){
     const tot=parseFloat(document.getElementById('m-tot')?.value)||0,ele=parseFloat(document.getElementById('m-ele')?.value)||0,ela=parseFloat(document.getElementById('m-ela')?.value)||0,dt=document.getElementById('m-dt')?.value||todayISO();
     const q=document.getElementById('m-quem')?.value||'Ambos',quem=q.includes('ele')?'Ele':q.includes('ela')?'Ela':'Ambos';
@@ -1238,7 +1305,7 @@ function saveModal(tipo,aba){
 }
 
 /* ─── DIV HELPERS ─── */
-function cd(p){const t=parseFloat(document.getElementById(p+'-tot')?.value)||0;const el=document.getElementById(p+'-ele'),ela=document.getElementById(p+'-ela');if(el&&ela&&!el.value&&!ela.value){el.value=(t/2).toFixed(2);ela.value=(t/2).toFixed(2);}}
+function cd(p){const t=parseFloat(document.getElementById(p+'-tot')?.value)||0;const el=document.getElementById(p+'-ele'),ela=document.getElementById(p+'-ela');if(el&&ela){el.value=(t/2).toFixed(2);ela.value=(t/2).toFixed(2);}}
 function cla(p){const t=parseFloat(document.getElementById(p+'-tot')?.value)||0,e=parseFloat(document.getElementById(p+'-ele')?.value)||0;const ela=document.getElementById(p+'-ela');if(ela)ela.value=Math.max(0,t-e).toFixed(2);}
 function cle(p){const t=parseFloat(document.getElementById(p+'-tot')?.value)||0,e=parseFloat(document.getElementById(p+'-ela')?.value)||0;const ele=document.getElementById(p+'-ele');if(ele)ele.value=Math.max(0,t-e).toFixed(2);}
 function togDiv(){const q=document.getElementById('m-quem')?.value||'',t=parseFloat(document.getElementById('m-tot')?.value)||0,el=document.getElementById('m-ele'),ela=document.getElementById('m-ela');if(!el||!ela)return;if(q.includes('ele')){el.value=t.toFixed(2);ela.value='0.00';}else if(q.includes('ela')){ela.value=t.toFixed(2);el.value='0.00';}else{el.value=(t/2).toFixed(2);ela.value=(t/2).toFixed(2);}}

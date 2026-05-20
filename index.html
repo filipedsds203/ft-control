@@ -815,7 +815,10 @@ function renderPessoa(m,aba){
   const st=ST.stab[aba];
   m.innerHTML=`
 <div class="gc">
-  <div class="glbl">Saldo — ${avt} ${aba==='ele'?'Ele':'Ela'}</div>
+  <div class="glbl" style="display:flex;align-items:center;justify-content:space-between">
+    <span>Saldo — ${avt} ${aba==='ele'?'Ele':'Ela'}</span>
+    <button onclick="openAjusteSaldo('${aba}')" style="font-size:11px;color:var(--txt4);background:none;border:none;cursor:pointer;padding:2px 6px" onmouseover="this.style.color='var(--O)'" onmouseout="this.style.color='var(--txt4)'">⚙️</button>
+  </div>
   <div class="saldo" style="color:${cor}">${fmtSaldo(d.saldo)}</div>
   <div class="srow">
     <div class="sc"><div class="sl">↑ Entradas</div><div class="sv vg">${fmt(tE)}</div></div>
@@ -1290,24 +1293,34 @@ function swPig(a,id){
 }
 function pigG(){return`<div class="mnote">💡 O valor sai do saldo de quem está guardando.</div><div><label>Quem</label><select id="pig-who"><option value="ele">👨🏻‍🦲 Ele</option><option value="ela">👩🏻‍🦱 Ela</option></select></div><div class="r2"><div><label>Valor</label><input id="pig-val" type="number" min="0" step="0.01" placeholder="0,00"></div><div><label>Data</label><input id="pig-date" type="date" value="${todayISO()}"></div></div>`;}
 function pigR(i){return`<div class="mnote">💡 O valor entra no saldo de quem resgatar.</div><div><label>Devolver para</label><select id="pig-back"><option value="ele">👨🏻‍🦲 Ele</option><option value="ela">👩🏻‍🦱 Ela</option><option value="dividir">Dividir</option></select></div><div class="r2"><div><label>Valor (máx ${fmt(i.val)})</label><input id="pig-val" type="number" min="0" step="0.01" placeholder="0,00"></div><div><label>Data</label><input id="pig-date" type="date" value="${todayISO()}"></div></div><div><label>Motivo</label><input id="pig-note" type="text" placeholder="Ex: meta atingida..."></div>`;}
-function confirmPig(id){
+async function confirmPig(id){
   const it=DB.eco.find(i=>i.id===id);if(!it)return;
+  // Ler TODOS os valores do DOM antes de qualquer alteração
   const val=money(parseFloat(document.getElementById('pig-val')?.value));
   if(val<=0){alert('Informe um valor maior que zero.');return;}
   const mode=document.getElementById('pt-body')?.dataset.mode||'g';
   const dt=document.getElementById('pig-date')?.value||todayISO();
+  const who=document.getElementById('pig-who')?.value||'ele';
+  const back=document.getElementById('pig-back')?.value||'ele';
+  const obs=document.getElementById('pig-note')?.value||'';
+  // Aplicar mudanças
   if(mode==='g'){
-    const who=document.getElementById('pig-who')?.value||'ele';
-    DB[who].saldo-=val;it.val+=val;
+    DB[who].saldo-=val;
+    it.val+=val;
     DB.movimentos.push({id:uid(),tipo:'guardar',reserva:it.id,quem:who,val,data:dt});
   }else{
     if(val>it.val){alert('Valor maior que o saldo da reserva.');return;}
-    const back=document.getElementById('pig-back')?.value||'ele';
-    if(back==='dividir'){DB.ele.saldo+=val/2;DB.ela.saldo+=val/2;}else DB[back].saldo+=val;
+    if(back==='dividir'){DB.ele.saldo+=val/2;DB.ela.saldo+=val/2;}
+    else DB[back].saldo+=val;
     it.val-=val;
-    DB.movimentos.push({id:uid(),tipo:'resgatar',reserva:it.id,quem:back,val,data:dt,obs:document.getElementById('pig-note')?.value||''});
+    DB.movimentos.push({id:uid(),tipo:'resgatar',reserva:it.id,quem:back,val,data:dt,obs});
   }
-  saveDB();saveCloudDebounced();closeModal();render();
+  // Salvar localmente, fechar modal e renderizar imediatamente
+  saveDB();
+  closeModal();
+  render();
+  // Salvar na nuvem de forma imediata (não debounced)
+  try{ await saveCloudNow(); } catch(e){ console.warn('Sync adiado',e); }
 }
 
 /* ══════════════════════════════════════
@@ -1994,6 +2007,35 @@ function setEspTipo(tipo){
   }
 }
 
+
+function openAjusteSaldo(aba){
+  const d=DB[aba];
+  const nome=aba==='ele'?'👨🏻‍🦲 Ele':'👩🏻‍🦱 Ela';
+  showModal(`<div class="mh"></div>
+<h3 style="font-size:15px">⚙️ Ajuste de saldo — ${nome}</h3>
+<div class="mnote" style="color:var(--O);background:var(--Obg)">⚠️ Use apenas para corrigir erros. O ajuste fica registrado no histórico.</div>
+<div style="font-size:13px;color:var(--txt3);padding:4px 0">Saldo atual: <strong style="color:var(--B)">${fmtSaldo(d.saldo)}</strong></div>
+<div><label>Novo saldo</label><input id="aj-val" type="number" step="0.01" value="${d.saldo.toFixed(2)}"></div>
+<div><label>Motivo obrigatório</label><input id="aj-obs" type="text" placeholder="Ex: acerto poupança maio..."></div>
+<div class="mbtns">
+  <button class="ab abgr" onclick="closeModal()">Cancelar</button>
+  <button class="ab abo" onclick="confirmarAjuste('${aba}')">Aplicar</button>
+</div>`);
+}
+
+async function confirmarAjuste(aba){
+  const novoSaldo=parseFloat(document.getElementById('aj-val')?.value);
+  const obs=document.getElementById('aj-obs')?.value?.trim();
+  if(isNaN(novoSaldo)){alert('Informe um valor válido.');return;}
+  if(!obs){alert('Descreva o motivo do ajuste.');return;}
+  const diff=novoSaldo-DB[aba].saldo;
+  if(!confirm(`Ajustar saldo de ${fmtSaldo(DB[aba].saldo)} para ${fmtSaldo(novoSaldo)}?\nMotivo: ${obs}`))return;
+  // Registrar no histórico de movimentos
+  DB.movimentos.push({id:uid(),tipo:'ajuste',aba,de:DB[aba].saldo,para:novoSaldo,diff,obs,data:todayISO()});
+  DB[aba].saldo=novoSaldo;
+  saveDB();closeModal();render();
+  try{ await saveCloudNow(); } catch(e){}
+}
 
 function openModal(tipo,aba){
   const emojis=tipo==='entrada'?EENT:tipo==='nova_res'?ERES:ESAI;

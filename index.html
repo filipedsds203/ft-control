@@ -30,7 +30,7 @@
   --R:#ff3b30;--Rbg:rgba(255,59,48,0.10);
   --B:#007aff;--Bbg:rgba(0,122,255,0.10);
   --O:#ff9500;--Obg:rgba(255,149,0,0.11);
-  --P:#ff2d55;--Pbg:rgba(255,45,85,0.10);
+  --P:#8e44ad;--Pbg:rgba(142,68,173,0.10);
   --Pr:#af52de;--Prbg:rgba(175,82,222,0.10);
   --T:#5ac8fa;--Tbg:rgba(90,200,250,0.12);
   --r:16px;--rs:12px;--rx:10px;
@@ -51,7 +51,7 @@
   --R:#ff453a;--Rbg:rgba(255,69,58,0.13);
   --B:#0a84ff;--Bbg:rgba(10,132,255,0.13);
   --O:#ff9f0a;--Obg:rgba(255,159,10,0.13);
-  --P:#ff375f;--Pbg:rgba(255,55,95,0.12);
+  --P:#bf5af2;--Pbg:rgba(191,90,242,0.12);
   --Pr:#bf5af2;--Prbg:rgba(191,90,242,0.12);
   --T:#64d2ff;--Tbg:rgba(100,210,255,0.12);
   --sh:0 4px 28px rgba(0,0,0,0.4),0 1px 5px rgba(0,0,0,0.2);
@@ -142,7 +142,7 @@ button,input,select,textarea{touch-action:manipulation}
 .hia:hover{background:var(--G);color:#fff}
 
 /* NAV */
-.nav{background:var(--glass);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border-bottom:.5px solid var(--sep);display:flex;transition:var(--dtr)}
+.nav{position:sticky;top:62px;z-index:49;background:var(--glass);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border-bottom:.5px solid var(--sep);display:flex;transition:var(--dtr)}
 .ntab{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:9px 4px 10px;border:none;background:transparent;color:var(--txt4);font-size:10px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;border-bottom:2px solid transparent;transition:var(--tr)}
 .ntab .ne{font-size:21px;line-height:1.1}
 .ntab.on{color:var(--G);border-bottom-color:var(--G)}
@@ -327,7 +327,7 @@ input:focus,select:focus{border-color:var(--G);box-shadow:0 0 0 3px var(--Gbg)}
 .epscrl{display:flex;flex-wrap:wrap;gap:5px;max-height:82px;overflow-y:auto;flex:1;padding:5px;background:var(--sf2);border-radius:var(--rx);border:.5px solid var(--gb2)}
 .epb{font-size:20px;padding:3px;cursor:pointer;border:2px solid transparent;border-radius:6px;background:none;line-height:1;transition:var(--tr)}
 .epb.on,.epb:hover{border-color:var(--G);background:var(--Gbg)}
-.mbtns{display:flex;gap:9px;margin-top:4px}
+.mbtns{display:flex;gap:9px;margin-top:8px}
 .mbtns .ab{font-size:14px;padding:14px}
 .mtabs{display:flex;gap:6px}
 .mtab{flex:1;padding:10px;border-radius:var(--rx);border:.5px solid var(--sep);background:transparent;font-size:13px;font-weight:500;color:var(--txt3);transition:var(--tr)}
@@ -424,6 +424,37 @@ input:focus,select:focus{border-color:var(--G);box-shadow:0 0 0 3px var(--Gbg)}
 .hbtn-sync.ok .sync-icon{color:var(--G)}
 .hbtn-sync.err .sync-icon{color:var(--R)}
 @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+
+/* ─── DRILL-DOWN CATEGORIA ─── */
+.cat-detail{background:var(--sf2);border-radius:var(--rs);border:.5px solid var(--gb2);padding:14px;margin-top:10px;animation:fadeSlide .2s ease}
+@keyframes fadeSlide{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.cat-detail-header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.cat-detail-emoji{font-size:26px}
+.cat-detail-name{font-size:15px;font-weight:700;color:var(--txt)}
+.cat-detail-total{font-size:13px;color:var(--txt3);margin-top:1px}
+.cat-detail-close{margin-left:auto;background:none;border:none;color:var(--txt3);font-size:18px;cursor:pointer;padding:4px;line-height:1}
+.cat-detail-item{display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:.5px solid var(--sep)}
+.cat-detail-item:last-child{border-bottom:none}
+.cat-detail-who{font-size:16px;flex-shrink:0}
+.cat-detail-info{flex:1;min-width:0}
+.cat-detail-desc{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cat-detail-date{font-size:11px;color:var(--txt4);margin-top:1px}
+.cat-detail-val{font-size:13px;font-weight:600;color:var(--R);white-space:nowrap}
+.cat-detail-bar{height:3px;border-radius:99px;margin-top:4px;transition:width .4s ease}
+
+/* ─── INSIGHT CARD (novidade) ─── */
+.insight-card{background:linear-gradient(135deg,var(--Gbg),rgba(0,122,255,0.06));border:.5px solid rgba(52,199,89,0.2);border-radius:var(--r);padding:14px 16px;margin-bottom:0}
+.insight-header{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.insight-icon{font-size:20px}
+.insight-title{font-size:12px;font-weight:600;color:var(--G);text-transform:uppercase;letter-spacing:.5px}
+.insight-list{display:flex;flex-direction:column;gap:6px}
+.insight-item{display:flex;align-items:flex-start;gap:7px;font-size:12px;color:var(--txt2);line-height:1.4}
+.insight-dot{width:6px;height:6px;border-radius:50%;background:var(--G);flex-shrink:0;margin-top:4px}
+
+/* ─── CL-ITEM clickável ─── */
+.cl-item{display:flex;align-items:center;gap:8px;cursor:pointer;border-radius:var(--rx);padding:5px 6px;transition:var(--tr);-webkit-tap-highlight-color:transparent}
+.cl-item:hover,.cl-item:active{background:var(--sf2)}
+.cl-item.selected{background:var(--Gbg);outline:1.5px solid var(--G)}
 </style>
 </head>
 <body>
@@ -756,7 +787,7 @@ function toggleDark(){dark=!dark;applyDark();saveSettings();}
 /* ─── EMOJIS ─── */
 const EENT=['💰','💼','🏦','📈','💵','🤑','🏆','✅','🎁','💻','🌟','📦'];
 const ESAI=['🛒','🏠','🚗','❤️','✨','👗','📱','🎓','🍽️','💊','⚡','💧','🎬','🏋️','✈️','🎮','🐾','🛠️','🎂','📚','⛽','🧴','☕','🏥','🍺','👶','🧒','🎒','🍼','🧸','🎠','🏫','💳','📄','🧾','💈','🌿','🎪','🛍️','🎵','🎨','⚽','🎯','🏊'];
-const ERES=['🐷','🏖️','🚗','🏡','💍','🎓','🌍','🛡️','💎','🏋️','🎸','📦','🎯','🌱'];
+const ERES=['🐷','🏖️','🚗','🏡','💍','🎓','🌍','🛡️','💎','🏋️','🎸','📦','🎯','🌱','✈️','👶','🏥','💊','🎪','🏊','⚽','🎮','🍷','🧳','💻','📱','🎵','🏗️','🌅','🎭','🐕','🌿','💈','📚','🎨','🏆','🚀','💡','🧲','🔑'];
 const CENT=['Salário','Renda extra','Pensão','Benefício gov.','Freelance','Outros'];
 const CSAI=['Alimentação','Transporte','Saúde','Moradia','Filhos','Beleza','Vestuário','Plataformas','Educação','Lazer','Presentes','Farmácia','Pets','Assinaturas','Cartão de crédito','Impostos','Outros'];
 
@@ -768,6 +799,7 @@ function setAba(a,el){ST.aba=a;document.querySelectorAll('.ntab').forEach(t=>t.c
 function setStab(v){ST.stab[ST.aba]=v;render();}
 
 function render(){
+  ensureCurrentMonthInstances();
   const m=document.getElementById('main'),a=ST.aba;
   if(a==='ele'||a==='ela')renderPessoa(m,a);
   else if(a==='casal')renderCasal(m);
@@ -1107,13 +1139,16 @@ function openEditRec(id){
 <div><label>Ícone</label><div class="epw"><div class="epprev" id="ep-prev">${i.emoji}</div><div class="epscrl">${ESAI.map(e=>`<button class="epb${e===i.emoji?' on':''}" onclick="pickE('${e}',this)">${e}</button>`).join('')}</div></div></div>
 <div class="r2"><div><label>Total</label><input id="er-tot" type="number" value="${i.total}" oninput="cd('er')"></div><div><label>Dia vencimento</label><input id="er-day" type="number" min="1" max="31" value="${i.day}"></div></div>
 <div class="r2"><div><label>👨🏻‍🦲 Ele</label><input id="er-ele" type="number" value="${i.ele}" oninput="cla('er')"></div><div><label>👩🏻‍🦱 Ela</label><input id="er-ela" type="number" value="${i.ela}" oninput="cle('er')"></div></div>
+<div><label>Categoria</label><select id="er-cat">${CSAI.map(c=>`<option${c===i.cat?" selected":""}>${c}</option>`).join("")}</select></div>
 <div class="mbtns"><button class="ab abgr" onclick="closeModal()">Cancelar</button><button class="ab abg" onclick="saveRec(${id})">Salvar</button></div>`);
 }
 function saveRec(id){
   const i=DB.casal.recorrentes.find(x=>x.id===id);if(!i)return;
   i.desc=document.getElementById('er-desc').value||i.desc;i.total=parseFloat(document.getElementById('er-tot').value)||i.total;
   i.ele=parseFloat(document.getElementById('er-ele').value)||0;i.ela=parseFloat(document.getElementById('er-ela').value)||0;
-  i.day=parseInt(document.getElementById('er-day').value)||i.day;i.emoji=ST.emoji;
+  i.day=parseInt(document.getElementById('er-day').value)||i.day;
+  i.cat=document.getElementById('er-cat')?.value||i.cat;
+  i.emoji=ST.emoji;
   closeModal();render();
 }
 function openEditEsp(id){
@@ -1269,7 +1304,10 @@ function saveEditPig(id){
   it.meta=money(document.getElementById('pe-meta')?.value||0);
   it.prazo=document.getElementById('pe-prazo')?.value||'';
   it.emoji=ST.emoji;
-  saveDB();saveCloudDebounced();closeModal();render();
+  saveDB();
+  render();
+  closeModal();
+  saveCloudDebounced(); // salva na nuvem em background (não bloqueia)
 }
 
 function delPig(id){
@@ -1317,10 +1355,9 @@ async function confirmPig(id){
   }
   // Salvar localmente, fechar modal e renderizar imediatamente
   saveDB();
-  closeModal();
-  render();
-  // Salvar na nuvem de forma imediata (não debounced)
-  try{ await saveCloudNow(); } catch(e){ console.warn('Sync adiado',e); }
+  render();      // atualiza tela de baixo primeiro
+  closeModal();  // fecha o modal
+  saveCloudDebounced(); // background
 }
 
 /* ══════════════════════════════════════
@@ -1360,7 +1397,11 @@ function renderMes(m){
     ? DB.ele.saldo+DB.ela.saldo-totalPend
     : totalEntMes - totalSaidaReal - totalPend;
   // health score 0-100: quanto do previsto já foi coberto
-  const previsto=curr?totalRec:DB.casal.recorrentes.reduce((s,r)=>s+r.total,0);
+  // Previsto = instâncias confirmadas do mês visualizado
+  const previsto=DB.casal.recorrentes.reduce((s,r)=>{
+    const ie=getInst(y,mo,r.id,'ele'),il=getInst(y,mo,r.id,'ela');
+    return s+(ie.confirmed?r.ele:0)+(il.confirmed?r.ela:0);
+  },0);
   const health=previsto>0?Math.min(100,Math.round((totalPago/previsto)*100)):0;
   // Sem contas configuradas: estado neutro
   const semContas=previsto===0&&contsEle.length===0&&contsEla.length===0;
@@ -1408,7 +1449,7 @@ function renderMes(m){
     </svg>
     <div class="ring-info">
       <div style="font-size:11px;color:var(--txt3);text-transform:uppercase;letter-spacing:.6px;font-weight:600;margin-bottom:4px">Saúde financeira</div>
-      <div class="ring-val" style="color:${healthColor}">${semContas?'📋 Configure contas':health===0&&previsto>0?'🕐 Mês em curso':health<50?'⚠️ Atenção':health<80?'👍 Indo bem':'✅ Excelente'}</div>
+      <div class="ring-val" style="color:${healthColor}">${semContas?'📋 Configure contas':health===0&&previsto>0?'🕐 Aguardando pagamentos':health>=80?'✅ Excelente':health>=50?'👍 Indo bem':'⚠️ Atenção'}</div>
       <div class="ring-sub">${semContas?'Adicione contas fixas no Casal':fmt(totalPago)+' pagos de '+fmt(previsto)+' previstos'}</div>
     </div>
   </div>
@@ -1456,19 +1497,20 @@ let chartMode='saidas'; // 'saidas' | 'contas' | 'tudo'
 
 function buildCatData(mode, eleSai, elaSai, contsEle, contsEla){
   const map={};
-  const add=(cat,val,emoji)=>{
+  const add=(cat,val,emoji,desc,quem,data,pago)=>{
     if(!cat||val<=0)return;
-    if(!map[cat])map[cat]={cat,val:0,emoji:emoji||'💰'};
+    if(!map[cat])map[cat]={cat,val:0,emoji:emoji||'💰',itens:[]};
     map[cat].val+=val;
+    map[cat].itens.push({desc:desc||cat,val,quem,data,pago,emoji:emoji||'💰'});
   };
 
   if(mode==='saidas'||mode==='tudo'){
-    eleSai.forEach(i=>add(i.cat,i.val,i.emoji));
-    elaSai.forEach(i=>add(i.cat,i.val,i.emoji));
+    eleSai.forEach(i=>add(i.cat,money(i.val),i.emoji||'💰',i.desc,'ele',i.data,true));
+    elaSai.forEach(i=>add(i.cat,money(i.val),i.emoji||'💰',i.desc,'ela',i.data,true));
   }
   if(mode==='contas'||mode==='tudo'){
-    contsEle.forEach(i=>add(i.cat,i.val,i.emoji));
-    contsEla.forEach(i=>add(i.cat,i.val,i.emoji));
+    contsEle.forEach(i=>add(i.cat,money(i.val),i.emoji||'📋',i.desc,'ele',i.data,i.pago));
+    contsEla.forEach(i=>add(i.cat,money(i.val),i.emoji||'📋',i.desc,'ela',i.data,i.pago));
   }
 
   return Object.values(map)
@@ -1502,63 +1544,97 @@ function slicePath(cx,cy,r,inner,startAngle,endAngle){
   return`M${s.x.toFixed(2)},${s.y.toFixed(2)} A${r},${r} 0 ${large},1 ${e.x.toFixed(2)},${e.y.toFixed(2)} L${ei.x.toFixed(2)},${ei.y.toFixed(2)} A${inner},${inner} 0 ${large},0 ${si.x.toFixed(2)},${si.y.toFixed(2)} Z`;
 }
 
+let catDetailOpen=null;
+
 function renderCatChart(eleSai, elaSai, contsEle, contsEla){
   const data=buildCatData(chartMode, eleSai, elaSai, contsEle, contsEla);
   const total=data.reduce((s,d)=>s+d.val,0);
-
-  const tabs=`
-<div class="chart-tab-wrap">
+  const tabs=`<div class="chart-tab-wrap">
   <button class="chart-tab${chartMode==='saidas'?' on':''}" onclick="setChartMode('saidas')">💸 Gastos</button>
   <button class="chart-tab${chartMode==='contas'?' on':''}" onclick="setChartMode('contas')">📋 Contas</button>
   <button class="chart-tab${chartMode==='tudo'?' on':''}" onclick="setChartMode('tudo')">Tudo</button>
 </div>`;
-
-  if(!data.length) return`<div class="gc"><div class="glbl">Por categoria</div>${tabs}<div class="chart-empty">Sem lançamentos para exibir</div></div>`;
-
+  if(!data.length)return`<div class="gc"><div class="glbl">Por categoria</div>${tabs}<div class="chart-empty">Sem lançamentos para exibir</div></div>`;
   const slices=buildPieSlices(data);
+  const selIdx=catDetailOpen?slices.findIndex(s=>s.cat===catDetailOpen):-1;
   const cx=60,cy=60,r=52,inner=28;
-  const paths=slices.map((s,i)=>`
-<path d="${slicePath(cx,cy,r,inner,s.startAngle,s.endAngle)}"
-  fill="${s.color}" opacity=".92"
-  style="cursor:pointer;transition:opacity .15s"
-  onmouseenter="this.style.opacity=1;this.style.transform='scale(1.03)';this.style.transformOrigin='${cx}px ${cy}px'"
-  onmouseleave="this.style.opacity='.92';this.style.transform=''"
-/>`).join('');
-
-  const svgHtml=`
-<svg class="chart-svg" width="120" height="120" viewBox="0 0 120 120">
-  ${paths}
-  <text x="${cx}" y="${cy-6}" text-anchor="middle" font-size="9" fill="var(--txt3)" font-family="-apple-system,sans-serif">total</text>
-  <text x="${cx}" y="${cy+8}" text-anchor="middle" font-size="11" font-weight="700" fill="var(--txt)" font-family="-apple-system,sans-serif">${fmt(total).replace('R$ ','R$')}</text>
-</svg>`;
-
-  const legendItems=data.slice(0,6).map((d,i)=>{
+  const paths=slices.map((s,i)=>`<path d="${slicePath(cx,cy,r,inner,s.startAngle,s.endAngle)}" fill="${s.color}" opacity="${selIdx>=0&&i!==selIdx?'.35':'1'}" style="cursor:pointer;transition:all .2s;transform-origin:${cx}px ${cy}px;transform:${i===selIdx?'scale(1.07)':''}" onclick="toggleCatDetail('${s.cat.replace(/'/g,'\'')}')" />`).join('');
+  const selVal=selIdx>=0?fmt(slices[selIdx].val).replace('R$ ','R$'):fmt(total).replace('R$ ','R$');
+  const selLbl=catDetailOpen||'total';
+  const svgHtml=`<svg class="chart-svg" width="120" height="120" viewBox="0 0 120 120" style="cursor:pointer">${paths}<text x="${cx}" y="${cy-6}" text-anchor="middle" font-size="9" fill="var(--txt3)" font-family="-apple-system,sans-serif">${selLbl}</text><text x="${cx}" y="${cy+8}" text-anchor="middle" font-size="11" font-weight="700" fill="var(--txt)" font-family="-apple-system,sans-serif">${selVal}</text></svg>`;
+  const legendItems=slices.slice(0,6).map((d,i)=>{
     const pct=Math.round(d.pct*100);
-    const barW=Math.round(d.pct*100);
-    return`
-<div class="cl-item">
-  <div class="cl-dot" style="background:${slices[i].color}"></div>
+    const isSel=catDetailOpen===d.cat;
+    return`<div class="cl-item${isSel?' selected':''}" onclick="toggleCatDetail('${d.cat.replace(/'/g,"\'")}')" style="margin-bottom:2px">
+  <div class="cl-dot" style="background:${d.color}"></div>
   <div class="cl-info">
     <div class="cl-name">${d.emoji} ${d.cat}</div>
-    <div class="cl-bar-track"><div class="cl-bar-fill" style="width:${barW}%;background:${slices[i].color}"></div></div>
+    <div class="cl-bar-track"><div class="cl-bar-fill" style="width:${pct}%;background:${d.color}"></div></div>
   </div>
-  <div><span class="cl-val">${fmt(d.val)}</span><span class="cl-pct">${pct}%</span></div>
+  <div style="display:flex;align-items:center;gap:3px"><span class="cl-val">${fmt(d.val)}</span><span class="cl-pct">${pct}%</span><span style="font-size:10px;color:var(--txt3)">${isSel?'▲':'▼'}</span></div>
 </div>`;}).join('');
+  const maisHtml=data.length>6?`<div style="font-size:11px;color:var(--txt3);margin-top:4px;padding-left:6px">+${data.length-6} outras</div>`:'';
 
-  const maisHtml=data.length>6?`<div style="font-size:11px;color:var(--txt3);margin-top:4px;padding-left:18px">+${data.length-6} outras categorias</div>`:'';
+  // Drill-down detail
+  let drillHtml='';
+  if(catDetailOpen&&selIdx>=0){
+    const d=data[selIdx];
+    const color=d.color;
+    const sorted=[...d.itens].sort((a,b)=>b.val-a.val);
+    const maxV=sorted[0]?.val||1;
+    drillHtml=`<div class="cat-detail">
+  <div class="cat-detail-header">
+    <div class="cat-detail-emoji">${d.emoji}</div>
+    <div><div class="cat-detail-name">${d.cat}</div><div class="cat-detail-total">${sorted.length} lançamento${sorted.length!==1?'s':''} · ${fmt(d.val)}</div></div>
+    <button class="cat-detail-close" onclick="toggleCatDetail(null)">✕</button>
+  </div>
+  ${sorted.map(it=>`<div class="cat-detail-item">
+    <div class="cat-detail-who">${it.quem==='ele'?'👨🏻‍🦲':'👩🏻‍🦱'}</div>
+    <div class="cat-detail-info">
+      <div class="cat-detail-desc">${it.emoji} ${it.desc}</div>
+      <div class="cat-detail-bar" style="width:${Math.round((it.val/maxV)*100)}%;background:${color};opacity:.25;min-width:4px"></div>
+      <div class="cat-detail-date">${it.data?fmtD(it.data):'—'} · ${it.pago===false?'<span style="color:var(--O)">pendente</span>':'realizado'}</div>
+    </div>
+    <div class="cat-detail-val">−${fmt(it.val)}</div>
+  </div>`).join('')}
+</div>`;
+  }
+
+  // Insights
+  const insights=gerarInsights(data,total);
+  const insightHtml=insights.length?`<div class="insight-card" style="margin-top:10px">
+  <div class="insight-header"><div class="insight-icon">💡</div><div class="insight-title">Insights do mês</div></div>
+  <div class="insight-list">${insights.map(i=>`<div class="insight-item"><div class="insight-dot"></div><span>${i}</span></div>`).join('')}</div>
+</div>`:'';
 
   return`<div class="gc">
   <div class="glbl">Por categoria</div>
   ${tabs}
-  <div class="chart-wrap">
-    ${svgHtml}
-    <div class="chart-legend">${legendItems}</div>
-  </div>
-  ${maisHtml}
+  <div class="chart-wrap">${svgHtml}<div class="chart-legend">${legendItems}</div></div>
+  ${maisHtml}${drillHtml}${insightHtml}
 </div>`;
 }
 
-function setChartMode(m){chartMode=m;render();}
+function toggleCatDetail(cat){catDetailOpen=catDetailOpen===cat?null:cat;render();}
+
+function gerarInsights(data,total){
+  const ins=[];
+  if(!data.length||total<=0)return ins;
+  const maior=data[0];
+  const mp=Math.round((maior.val/total)*100);
+  if(mp>=35)ins.push(`<strong>${maior.emoji} ${maior.cat}</strong> domina com ${mp}% do total — R$ ${maior.val.toFixed(0)} este mês.`);
+  const maisItens=[...data].sort((a,b)=>b.itens.length-a.itens.length)[0];
+  if(maisItens.itens.length>=3)ins.push(`<strong>${maisItens.emoji} ${maisItens.cat}</strong> teve ${maisItens.itens.length} lançamentos — vale revisar.`);
+  const eleT=data.reduce((s,d)=>s+d.itens.filter(i=>i.quem==='ele').reduce((ss,i)=>ss+i.val,0),0);
+  const elaT=data.reduce((s,d)=>s+d.itens.filter(i=>i.quem==='ela').reduce((ss,i)=>ss+i.val,0),0);
+  if(eleT>0&&elaT>0&&Math.abs(eleT-elaT)/total>0.15){
+    const maior2=eleT>elaT?'👨🏻‍🦲 Ele':'👩🏻‍🦱 Ela';
+    ins.push(`${maior2} concentra mais gastos: ${fmt(Math.max(eleT,elaT))} vs ${fmt(Math.min(eleT,elaT))}.`);
+  }
+  return ins.slice(0,3);
+}
+
+function setChartMode(m){catDetailOpen=null;chartMode=m;render();}
 
 /* Mês atual: timeline de contas */
 let mesFilter='todos'; // 'todos','ele','ela'
@@ -1702,7 +1778,7 @@ function toggleInst(y,m,recId,aba){
 
 /* Mês passado: apenas leitura */
 function renderMesPast(byDay){
-  const dias=Object.keys(byDay).sort();
+  const dias=Object.keys(byDay).sort((a,b)=>a.localeCompare(b));
   if(!dias.length)return'<div class="gc"><div class="empty">Sem dados para este período</div></div>';
   const items=dias.map(dk=>{
     const contas=byDay[dk];
@@ -2011,12 +2087,15 @@ function setEspTipo(tipo){
 function openAjusteSaldo(aba){
   const d=DB[aba];
   const nome=aba==='ele'?'👨🏻‍🦲 Ele':'👩🏻‍🦱 Ela';
+  const hist=(DB.movimentos||[]).filter(m=>m.tipo==='ajuste'&&m.aba===aba).slice(-3).reverse();
+  const histHtml=hist.length?`<div style="margin-top:4px"><div style="font-size:11px;color:var(--txt3);font-weight:600;margin-bottom:5px">Últimos ajustes</div>${hist.map(m=>`<div style="font-size:11px;color:var(--txt3);padding:3px 0;border-bottom:.5px solid var(--sep)">${fmtD(m.data)} · ${m.obs} · <span style="color:${m.diff>=0?'var(--G)':'var(--R)'}">${m.diff>=0?'+':''}${fmt(Math.abs(m.diff))}</span></div>`).join('')}</div>`:'';
   showModal(`<div class="mh"></div>
 <h3 style="font-size:15px">⚙️ Ajuste de saldo — ${nome}</h3>
 <div class="mnote" style="color:var(--O);background:var(--Obg)">⚠️ Use apenas para corrigir erros. O ajuste fica registrado no histórico.</div>
 <div style="font-size:13px;color:var(--txt3);padding:4px 0">Saldo atual: <strong style="color:var(--B)">${fmtSaldo(d.saldo)}</strong></div>
 <div><label>Novo saldo</label><input id="aj-val" type="number" step="0.01" value="${d.saldo.toFixed(2)}"></div>
 <div><label>Motivo obrigatório</label><input id="aj-obs" type="text" placeholder="Ex: acerto poupança maio..."></div>
+${histHtml}
 <div class="mbtns">
   <button class="ab abgr" onclick="closeModal()">Cancelar</button>
   <button class="ab abo" onclick="confirmarAjuste('${aba}')">Aplicar</button>
@@ -2033,8 +2112,8 @@ async function confirmarAjuste(aba){
   // Registrar no histórico de movimentos
   DB.movimentos.push({id:uid(),tipo:'ajuste',aba,de:DB[aba].saldo,para:novoSaldo,diff,obs,data:todayISO()});
   DB[aba].saldo=novoSaldo;
-  saveDB();closeModal();render();
-  try{ await saveCloudNow(); } catch(e){}
+  saveDB();render();closeModal();
+  saveCloudDebounced();
 }
 
 function openModal(tipo,aba){
@@ -2066,10 +2145,10 @@ function openModal(tipo,aba){
 <div class="r2"><div><label>Meta (valor alvo)</label><input id="m-meta-res" type="number" placeholder="Ex: 5000,00"></div><div><label>Data alvo (opcional)</label><input id="m-prazo-res" type="date"></div></div>`;
   } else {
     const cats=tipo==='entrada'?CENT:CSAI;
-    body=`<div><label>Categoria</label><select id="m-cat">${cats.map(c=>`<option>${c}</option>`).join('')}</select></div><div class="r2"><div><label>Valor</label><input id="m-val" type="number" placeholder="0,00"></div><div><label>Data</label><input id="m-data" type="date" value="${todayISO()}"></div></div>${tipo==='futura_avulsa'?`<div><label>Vencimento</label><input id="m-venc" type="date" value="${todayISO()}"></div>`:''}`;
+    body=`<div><label>Categoria</label><select id="m-cat">${cats.map(c=>`<option>${c}</option>`).join('')}</select></div><div class="r2"><div><label>Valor</label><input id="m-val" type="number" placeholder="0,00"></div><div><label>${tipo==='futura_avulsa'?'Vencimento':'Data'}</label><input id="${tipo==='futura_avulsa'?'m-venc':'m-data'}" type="date" value="${todayISO()}"></div></div>`;
   }
   showModal(`<div class="mh"></div><h3>${T[tipo]||tipo}</h3><div><label>Descrição</label><input id="m-desc" type="text" placeholder="Ex: Salário, Conta de luz..."></div>${ep}${body}
-<div class="mbtns"><button class="ab abgr" onclick="closeModal()">Cancelar</button><button class="ab abg" onclick="saveModal('${tipo}','${aba}')">Salvar</button></div>`);
+<div class="mbtns"><button class="ab abgr" onclick="closeModal()">Cancelar</button><button class="ab abg" id="modal-save-btn" onclick="this.disabled=true;this.textContent='Salvando…';saveModal('${tipo}','${aba}')">Salvar</button></div>`);
 }
 
 function saveModal(tipo,aba){
@@ -2164,13 +2243,80 @@ As saídas realizadas representam cerca de ${gastoPct}% das entradas cadastradas
 
 Sugestão prática: antes de gastar, separe primeiro o valor pendente (${fmt(r.pend)}) e mantenha as reservas intocadas. Hoje vocês têm ${fmt(r.reservas)} em poupanças/metas.`;
 }
+function buildContextoIA(aba){
+  const mes=MNAMES[TODAY_M]+' '+TODAY_Y;
+  // Dados específicos da pessoa/contexto
+  if(aba==='ele'||aba==='ela'){
+    const d=DB[aba];
+    const nome=aba==='ele'?'Ele (👨🏻‍🦲)':'Ela (👩🏻‍🦱)';
+    const contas=getContasMes(aba,TODAY_Y,TODAY_M);
+    const contasPagas=contas.filter(i=>i.pago);
+    const contasPendentes=contas.filter(i=>!i.pago);
+    const tSaidas=d.saidas.reduce((s,i)=>s+money(i.val),0);
+    const tContasPagas=contasPagas.reduce((s,i)=>s+money(i.val),0);
+    const tEntradas=d.entradas.reduce((s,i)=>s+money(i.val),0);
+    return {
+      pessoa: nome,
+      mes,
+      saldo_atual: money(d.saldo),
+      entradas: d.entradas.map(i=>({desc:i.desc,cat:i.cat,val:money(i.val),data:i.data})),
+      total_entradas: tEntradas,
+      saidas_realizadas: d.saidas.map(i=>({desc:i.desc,cat:i.cat,val:money(i.val),data:i.data})),
+      total_saidas_realizadas: tSaidas,
+      contas_pagas_mes: contasPagas.map(i=>({desc:i.desc,cat:i.cat,val:money(i.val)})),
+      total_contas_pagas: tContasPagas,
+      total_saido: tSaidas+tContasPagas,
+      contas_pendentes: contasPendentes.map(i=>({desc:i.desc,cat:i.cat,val:money(i.val),vence:i.data})),
+      total_pendente: contasPendentes.reduce((s,i)=>s+money(i.val),0),
+      projecao_fim_mes: money(d.saldo)-contasPendentes.reduce((s,i)=>s+money(i.val),0),
+      pct_comprometido: tEntradas>0?Math.round(((tSaidas+tContasPagas)/tEntradas)*100):0
+    };
+  }
+  if(aba==='casal'){
+    const recTotal=DB.casal.recorrentes.reduce((s,r)=>s+r.total,0);
+    return {
+      contexto:'Casal',mes,
+      contas_fixas: DB.casal.recorrentes.map(r=>({desc:r.desc,total:r.total,ele:r.ele,ela:r.ela,dia:r.day})),
+      total_fixas: recTotal,
+      esporadicos: DB.casal.esporadicas.map(i=>({desc:i.desc,val:money(i.val),quem:i.quem,tipo:i.tipo})),
+      saldo_ele: money(DB.ele.saldo),
+      saldo_ela: money(DB.ela.saldo),
+      saldo_conjunto: money(DB.ele.saldo)+money(DB.ela.saldo)
+    };
+  }
+  if(aba==='eco'){
+    return {
+      contexto:'Poupança',mes,
+      reservas: DB.eco.map(i=>({desc:i.desc,val:money(i.val),meta:money(i.meta||0),prazo:i.prazo,banco:i.banco,quem:i.quem,objetivo:i.objetivo})),
+      total_reservas: DB.eco.reduce((s,i)=>s+money(i.val),0)
+    };
+  }
+  if(aba==='emp'){
+    return {
+      contexto:'Empréstimos',mes,
+      emprestimos: DB.emprestimos.map(i=>({desc:i.desc,val:money(i.val),tipo:i.tipo,de:i.de,para:i.para,pago:i.pago})),
+      total_pendente: DB.emprestimos.filter(i=>!i.pago).reduce((s,i)=>s+money(i.val),0)
+    };
+  }
+  // mês
+  const contsEle=getContasMes('ele',TODAY_Y,TODAY_M);
+  const contsEla=getContasMes('ela',TODAY_Y,TODAY_M);
+  return {
+    contexto:'Visão do mês '+mes,
+    ele:{saldo:money(DB.ele.saldo),entradas:DB.ele.entradas.reduce((s,i)=>s+money(i.val),0),saidas:DB.ele.saidas.reduce((s,i)=>s+money(i.val),0),contas_pagas:contsEle.filter(i=>i.pago).reduce((s,i)=>s+money(i.val),0),pendente:contsEle.filter(i=>!i.pago).reduce((s,i)=>s+money(i.val),0)},
+    ela:{saldo:money(DB.ela.saldo),entradas:DB.ela.entradas.reduce((s,i)=>s+money(i.val),0),saidas:DB.ela.saidas.reduce((s,i)=>s+money(i.val),0),contas_pagas:contsEla.filter(i=>i.pago).reduce((s,i)=>s+money(i.val),0),pendente:contsEla.filter(i=>!i.pago).reduce((s,i)=>s+money(i.val),0)},
+    reservas_total: DB.eco.reduce((s,i)=>s+money(i.val),0)
+  };
+}
+
 async function sendIA(){
   const inp=document.getElementById('ia-in'),q=inp?.value?.trim();if(!q)return;
   const out=document.getElementById('ia-out');if(out)out.innerHTML='<div class="iaload">✦ Analisando…</div>';
   const a=ST.aba;
+  const contexto=buildContextoIA(a);
   if(API_BASE&&getToken()){
     try{
-      const data=await apiFetch('/ai/analyze',{method:'POST',body:JSON.stringify({question:q,context:a,state:DB})});
+      const data=await apiFetch('/ai/analyze',{method:'POST',body:JSON.stringify({question:q,context:a,contexto_detalhado:contexto})});
       if(out)out.innerHTML=`<div class="iaresp">${data.answer||'Sem resposta.'}</div>`;
       return;
     }catch(e){console.warn('Falha no backend de IA, usando análise local.',e);}
@@ -2180,7 +2326,13 @@ async function sendIA(){
 
 /* ─── MODAL UTILS ─── */
 function showModal(html){const ov=document.createElement('div');ov.className='ov';ov.innerHTML=`<div class="mo">${html}</div>`;ov.addEventListener('click',e=>{if(e.target===ov)closeModal();});document.getElementById('ovs').appendChild(ov);}
-function closeModal(){const ovs=document.getElementById('ovs'),last=ovs.lastElementChild;if(last){last.style.opacity='0';last.style.transition='opacity .18s';setTimeout(()=>last.remove(),200);}}
+function closeModal(){
+  const ovs=document.getElementById('ovs'),last=ovs.lastElementChild;
+  if(!last)return;
+  last.style.transition='opacity .15s';
+  last.style.opacity='0';
+  setTimeout(()=>last.remove(),150);
+}
 
 loadSettings();
 window.addEventListener('beforeunload',()=>{saveDB();});

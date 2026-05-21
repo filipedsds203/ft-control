@@ -576,6 +576,11 @@ function debounceCloudSave(){
   clearTimeout(cloudSaveTimer);
   cloudSaveTimer=setTimeout(saveCloudNow,800);
 }
+// Compatibilidade: várias ações chamam saveCloudDebounced(), mas a função real do projeto é debounceCloudSave().
+// Sem este alias, o JavaScript quebra antes de fechar o modal após clicar em Salvar.
+function saveCloudDebounced(){
+  debounceCloudSave();
+}
 async function saveCloudNow(){
   if(!getToken())return;
   try{await apiFetch('/state',{method:'PUT',body:JSON.stringify({state:DB})});}
@@ -924,8 +929,21 @@ function rContasMes(contas,aba){
       ?`<span class="bdg bpg">pago ✓</span><button class="mpb ud" onclick="desfazPago('${aba}','${i.id}','${i.recId||''}',${i.val})">↩ desfazer</button>`
       :`<button class="mpb pg" onclick="marcaPago('${aba}','${i.id}','${i.recId||''}',${i.val})">✓ pagar</button>`}
   </div>
-  ${!i.isRec?`<div class="iact"><button class="iab dl" onclick='delAvulsa("${aba}",${i.id})'>✕</button></div>`:''}
+  ${!i.isRec?`<div class="iact">
+    <button class="iab ed" onclick='openEditContaPagar("${aba}","${i.id}","${i.recId||''}")'>✎</button>
+    <button class="iab dl" onclick='delAvulsa("${aba}",${i.id})'>✕</button>
+  </div>`:''}
 </div>`).join('');
+}
+
+function openEditContaPagar(aba,id,recId){
+  if(String(id).startsWith('R_')&&recId){
+    openEditRec(Number(recId));
+    return;
+  }
+  const f=DB[aba].futuras.find(x=>String(x.id)===String(id));
+  if(!f)return;
+  openEdit(aba,'futuras',f.id);
 }
 
 function marcaPago(aba,id,recId,val){

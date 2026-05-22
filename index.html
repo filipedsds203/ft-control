@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>FT · Control</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-status-bar-style" content="default" id="sbmeta">
 <meta name="apple-mobile-web-app-title" content="FT Control">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#34c759" id="tmeta">
@@ -38,7 +38,7 @@
   --sh:0 4px 28px rgba(0,0,0,0.07),0 1px 5px rgba(0,0,0,0.04);
   --sh2:0 20px 70px rgba(0,0,0,0.18),0 4px 16px rgba(0,0,0,0.08);
   --tr:all .18s cubic-bezier(.4,0,.2,1);
-  --dtr:background-color 1.8s ease,color 1.8s ease,border-color 1.8s ease;
+  --dtr:background-color 1.8s ease,color 1.8s ease,border-color 1.8s ease,box-shadow 1.8s ease,opacity 1.8s ease;
 }
 [data-dark]{
   --bg:#000;--bg2:#1c1c1e;
@@ -153,7 +153,7 @@ button,input,select,textarea{touch-action:manipulation}
 /* GLASS CARD */
 .gc{background:var(--glass);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:.5px solid var(--gb);border-radius:var(--r);padding:18px;box-shadow:var(--sh);transition:var(--dtr)}
 .glbl{font-size:11px;color:var(--txt3);font-weight:600;letter-spacing:.8px;text-transform:uppercase;margin-bottom:10px}
-.saldo{font-size:34px;font-weight:700;letter-spacing:-1.2px}
+.saldo{font-size:34px;font-weight:700;letter-spacing:-1.2px;transition:color 1.8s ease}
 .srow{display:flex;margin-top:14px}
 .sc{flex:1}
 .sc+.sc{border-left:.5px solid var(--sep);padding-left:13px;margin-left:13px}
@@ -455,6 +455,226 @@ input:focus,select:focus{border-color:var(--G);box-shadow:0 0 0 3px var(--Gbg)}
 .cl-item{display:flex;align-items:center;gap:8px;cursor:pointer;border-radius:var(--rx);padding:5px 6px;transition:var(--tr);-webkit-tap-highlight-color:transparent}
 .cl-item:hover,.cl-item:active{background:var(--sf2)}
 .cl-item.selected{background:var(--Gbg);outline:1.5px solid var(--G)}
+
+/* ════════════════════════════════════
+   MODO COLORFUL
+════════════════════════════════════ */
+[data-color] {
+  --bg:#0f0f1a;
+  --bg2:#1a1a2e;
+  --glass:rgba(255,255,255,0.06);
+  --glass2:rgba(255,255,255,0.04);
+  --gb:rgba(255,255,255,0.12);
+  --gb2:rgba(255,255,255,0.08);
+  --sf:rgba(255,255,255,0.05);
+  --sf2:rgba(255,255,255,0.07);
+  --txt:#f0f0ff;
+  --txt2:#c8c8e8;
+  --txt3:#8888aa;
+  --txt4:#555577;
+  --sep:rgba(255,255,255,0.10);
+  --G:#00e676;--G2:#00c853;--Gbg:rgba(0,230,118,0.15);
+  --R:#ff5252;--Rbg:rgba(255,82,82,0.15);
+  --B:#448aff;--Bbg:rgba(68,138,255,0.15);
+  --O:#ffab40;--Obg:rgba(255,171,64,0.15);
+  --P:#ea80fc;--Pbg:rgba(234,128,252,0.15);
+  --Pr:#b388ff;--Prbg:rgba(179,136,255,0.15);
+  --T:#80d8ff;--Tbg:rgba(128,216,255,0.15);
+  --sh:0 4px 28px rgba(0,0,0,0.5),0 1px 5px rgba(0,0,0,0.3);
+  --sh2:0 20px 70px rgba(0,0,0,0.7),0 4px 16px rgba(0,0,0,0.4);
+}
+
+/* Aba ELE — Índigo → Verde */
+[data-color][data-aba="ele"] {
+  --aba-accent:#00e676;
+  --aba-accent2:#69f0ae;
+  --aba-bg1:rgba(0,230,118,0.08);
+  --aba-bg2:rgba(0,230,118,0.04);
+  --aba-glow:0 0 40px rgba(0,230,118,0.2);
+  --blur:blur(40px) saturate(180%) hue-rotate(120deg);
+}
+
+/* Aba CASAL — Dourado */
+[data-color][data-aba="casal"] {
+  --aba-accent:#ffd740;
+  --aba-accent2:#ffe57f;
+  --aba-bg1:rgba(255,215,64,0.08);
+  --aba-bg2:rgba(255,215,64,0.04);
+  --aba-glow:0 0 40px rgba(255,215,64,0.2);
+}
+
+/* Aba ELA — Rosa/Magenta */
+[data-color][data-aba="ela"] {
+  --aba-accent:#ea80fc;
+  --aba-accent2:#f48fb1;
+  --aba-bg1:rgba(234,128,252,0.08);
+  --aba-bg2:rgba(234,128,252,0.04);
+  --aba-glow:0 0 40px rgba(234,128,252,0.2);
+}
+
+/* Aba POUPANÇA — Ciano/Azul */
+[data-color][data-aba="eco"] {
+  --aba-accent:#40c4ff;
+  --aba-accent2:#80d8ff;
+  --aba-bg1:rgba(64,196,255,0.08);
+  --aba-bg2:rgba(64,196,255,0.04);
+  --aba-glow:0 0 40px rgba(64,196,255,0.2);
+}
+
+/* Aba MÊS — Laranja/Coral */
+[data-color][data-aba="mes"] {
+  --aba-accent:#ff6e40;
+  --aba-accent2:#ffab91;
+  --aba-bg1:rgba(255,110,64,0.08);
+  --aba-bg2:rgba(255,110,64,0.04);
+  --aba-glow:0 0 40px rgba(255,110,64,0.2);
+}
+
+/* Aba EMPRÉSTIMOS — Roxo/Violeta */
+[data-color][data-aba="emp"] {
+  --aba-accent:#b388ff;
+  --aba-accent2:#d1b3ff;
+  --aba-bg1:rgba(179,136,255,0.08);
+  --aba-bg2:rgba(179,136,255,0.04);
+  --aba-glow:0 0 40px rgba(179,136,255,0.2);
+}
+
+/* Aplicar acento nas abas colorful */
+[data-color] .ntab.on {
+  color:var(--aba-accent,var(--G));
+  border-bottom-color:var(--aba-accent,var(--G));
+}
+
+[data-color] .gc {
+  background:var(--glass);
+  border-color:var(--gb);
+  box-shadow:var(--aba-glow,var(--sh));
+}
+
+[data-color] .saldo {
+  background:linear-gradient(135deg,var(--aba-accent,var(--G)),var(--aba-accent2,var(--G2)));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+
+[data-color] .abg {
+  background:linear-gradient(135deg,var(--aba-accent,var(--G)),var(--aba-accent2,var(--G2)));
+  color:#000;
+  box-shadow:0 4px 20px rgba(0,0,0,0.3);
+}
+
+[data-color] .pill.on {
+  background:linear-gradient(135deg,var(--aba-accent,var(--G)),var(--aba-accent2,var(--G2)));
+  color:#000;
+  border-color:transparent;
+}
+
+[data-color] .ntab.on .ne {
+  filter:drop-shadow(0 0 6px var(--aba-accent,var(--G)));
+}
+
+[data-color] .pf {
+  background:linear-gradient(90deg,var(--aba-accent,var(--G)),var(--aba-accent2,var(--G2))) !important;
+}
+
+[data-color] .hdr,
+[data-color] .nav {
+  background:rgba(15,15,26,0.85);
+  border-bottom-color:rgba(255,255,255,0.06);
+}
+
+[data-color] .hdr {
+  border-bottom:1px solid var(--aba-accent,var(--G));
+  box-shadow:0 1px 20px rgba(0,0,0,0.4);
+}
+
+[data-color] .hia {
+  background:var(--aba-bg1,var(--Gbg));
+  border-color:var(--aba-accent,var(--G));
+  color:var(--aba-accent,var(--G));
+}
+
+[data-color] .hia:hover {
+  background:var(--aba-accent,var(--G));
+  color:#000;
+}
+
+[data-color] .blobs { display:block; }
+[data-color] .blob { opacity:.25; }
+
+[data-color] .sbox {
+  background:var(--aba-bg2,rgba(255,255,255,0.04));
+  border-color:var(--aba-bg1,rgba(255,255,255,0.08));
+}
+
+[data-color] .ab.abg:hover { filter:brightness(1.1); }
+
+[data-color] input:focus,
+[data-color] select:focus {
+  border-color:var(--aba-accent,var(--G));
+  box-shadow:0 0 0 3px var(--aba-bg1,rgba(0,230,118,0.15));
+}
+
+[data-color] .hbtn {
+  background:rgba(255,255,255,0.06);
+  border-color:rgba(255,255,255,0.08);
+  color:var(--txt2);
+}
+
+[data-color] .cl-item.selected {
+  background:var(--aba-bg1);
+  outline-color:var(--aba-accent);
+}
+
+[data-color] .pig-bar-fill {
+  background:linear-gradient(90deg,var(--aba-accent,var(--G)),var(--aba-accent2,var(--G2))) !important;
+}
+
+[data-color] .month-tag.mt-curr {
+  background:var(--aba-bg1);
+  color:var(--aba-accent);
+}
+
+/* Blobs colorful por aba */
+[data-color][data-aba="ele"] .b1 { background:radial-gradient(circle,#00e676,#1de9b6); }
+[data-color][data-aba="ele"] .b2 { background:radial-gradient(circle,#76ff03,#00e676); }
+[data-color][data-aba="ele"] .b3 { background:radial-gradient(circle,#1de9b6,#00bcd4); }
+
+[data-color][data-aba="casal"] .b1 { background:radial-gradient(circle,#ffd740,#ff6d00); }
+[data-color][data-aba="casal"] .b2 { background:radial-gradient(circle,#ffab40,#ff6d00); }
+[data-color][data-aba="casal"] .b3 { background:radial-gradient(circle,#ffe57f,#ffd740); }
+
+[data-color][data-aba="ela"] .b1 { background:radial-gradient(circle,#ea80fc,#e040fb); }
+[data-color][data-aba="ela"] .b2 { background:radial-gradient(circle,#f48fb1,#ea80fc); }
+[data-color][data-aba="ela"] .b3 { background:radial-gradient(circle,#ce93d8,#b39ddb); }
+
+[data-color][data-aba="eco"] .b1 { background:radial-gradient(circle,#40c4ff,#0091ea); }
+[data-color][data-aba="eco"] .b2 { background:radial-gradient(circle,#80d8ff,#40c4ff); }
+[data-color][data-aba="eco"] .b3 { background:radial-gradient(circle,#00bcd4,#006064); }
+
+[data-color][data-aba="mes"] .b1 { background:radial-gradient(circle,#ff6e40,#dd2c00); }
+[data-color][data-aba="mes"] .b2 { background:radial-gradient(circle,#ffab91,#ff6e40); }
+[data-color][data-aba="mes"] .b3 { background:radial-gradient(circle,#ffd180,#ff6d00); }
+
+[data-color][data-aba="emp"] .b1 { background:radial-gradient(circle,#b388ff,#7c4dff); }
+[data-color][data-aba="emp"] .b2 { background:radial-gradient(circle,#d1b3ff,#b388ff); }
+[data-color][data-aba="emp"] .b3 { background:radial-gradient(circle,#9fa8da,#7986cb); }
+
+/* Transição suave ao trocar de aba no modo colorful */
+[data-color] .gc,
+[data-color] .hdr,
+[data-color] .nav,
+[data-color] .sbox,
+[data-color] .abg,
+[data-color] .pill.on,
+[data-color] .pf,
+[data-color] .ntab.on {
+  transition: background 1.8s ease, border-color 1.8s ease, box-shadow 1.8s ease, color 1.8s ease !important;
+}
+[data-color] .blob {
+  transition: background 1.8s ease !important;
+}
 </style>
 </head>
 <body>
@@ -576,11 +796,6 @@ function debounceCloudSave(){
   clearTimeout(cloudSaveTimer);
   cloudSaveTimer=setTimeout(saveCloudNow,800);
 }
-// Compatibilidade: várias ações chamam saveCloudDebounced(), mas a função real do projeto é debounceCloudSave().
-// Sem este alias, o JavaScript quebra antes de fechar o modal após clicar em Salvar.
-function saveCloudDebounced(){
-  debounceCloudSave();
-}
 async function saveCloudNow(){
   if(!getToken())return;
   try{await apiFetch('/state',{method:'PUT',body:JSON.stringify({state:DB})});}
@@ -590,7 +805,7 @@ function saveDB(){
   try{localStorage.setItem(STORAGE.data,JSON.stringify(DB));}catch(e){console.warn('Não foi possível salvar localmente',e);}
   debounceCloudSave();
 }
-function saveSettings(){try{localStorage.setItem(STORAGE.settings,JSON.stringify({dark}));}catch(e){}}
+function saveSettings(){try{localStorage.setItem(STORAGE.settings,JSON.stringify({colorMode}));}catch(e){}}
 function createDefaultDB(){
   return {
     ele:{
@@ -783,10 +998,50 @@ async function resetLocalApp(){
 }
 
 /* ─── DARK ─── */
-let dark=false;
-function applyDark(){document.body.toggleAttribute('data-dark',dark);const b=document.getElementById('dkbtn');if(b)b.textContent=dark?'☀️':'🌙';const t=document.getElementById('tmeta');if(t)t.content=dark?'#000':'#f2f2f7';}
-function loadSettings(){try{const st=JSON.parse(localStorage.getItem(STORAGE.settings)||'{}');dark=!!st.dark;}catch{dark=false;}applyDark();}
-function toggleDark(){dark=!dark;applyDark();saveSettings();}
+let colorMode=0; // 0=light 1=dark 2=colorful
+const MODE_ICONS=['☀️','🌙','🎨']; // ícone do modo ATUAL: claro, escuro, colorful
+const MODE_LABELS=['Modo claro','Modo escuro','Modo colorful'];
+
+function applyColorMode(){
+  const b=document.getElementById('dkbtn');
+  const t=document.getElementById('tmeta');
+  document.body.removeAttribute('data-dark');
+  document.body.removeAttribute('data-color');
+  if(colorMode===1){
+    document.body.setAttribute('data-dark','');
+    if(t)t.content='#000';
+  } else if(colorMode===2){
+    document.body.setAttribute('data-color','');
+    applyAbaColor(ST.aba);
+    if(t)t.content='#0f0f1a';
+  } else {
+    if(t)t.content='#f2f2f7';
+  }
+  if(b){b.textContent=MODE_ICONS[colorMode];b.title=MODE_LABELS[colorMode];}
+  // Status bar iOS
+  const sb=document.getElementById('sbmeta');
+  if(sb)sb.content=colorMode===0?'default':'black-translucent';
+}
+
+function applyAbaColor(aba){
+  if(colorMode===2) document.body.setAttribute('data-aba',aba);
+  else document.body.removeAttribute('data-aba');
+}
+
+function loadSettings(){
+  try{const st=JSON.parse(localStorage.getItem(STORAGE.settings)||'{}');colorMode=st.colorMode||0;}
+  catch{colorMode=0;}
+  applyColorMode();
+}
+
+function toggleDark(){
+  colorMode=(colorMode+1)%3;
+  applyColorMode();
+  saveSettings();
+}
+
+// Compat: dark getter
+Object.defineProperty(window,'dark',{get:()=>colorMode===1});
 
 
 /* ─── EMOJIS ─── */
@@ -800,7 +1055,7 @@ const CSAI=['Alimentação','Transporte','Saúde','Moradia','Filhos','Beleza','V
 const ST={aba:'ele',stab:{ele:'entradas',ela:'entradas',casal:'fixas'},emoji:'💰',vy:TODAY_Y,vm:TODAY_M};
 
 /* ─── NAV ─── */
-function setAba(a,el){ST.aba=a;document.querySelectorAll('.ntab').forEach(t=>t.classList.remove('on'));el.classList.add('on');render();}
+function setAba(a,el){ST.aba=a;document.querySelectorAll('.ntab').forEach(t=>t.classList.remove('on'));el.classList.add('on');applyAbaColor(a);render();}
 function setStab(v){ST.stab[ST.aba]=v;render();}
 
 function render(){
@@ -883,11 +1138,12 @@ function renderPessoa(m,aba){
 }
 
 function rListaSaidas(saidas, contas, aba){
-  // Saídas avulsas + contas pagas deste mês
+  // Saídas avulsas + contas pagas deste mês (mais recente primeiro)
   const contasPagas=contas.filter(i=>i.pago);
+  const saidasOrd=[...saidas].sort((a,b)=>new Date(b.data||'2000-01-01')-new Date(a.data||'2000-01-01'));
   const cor=aba==='ele'?'var(--G)':'var(--P)';
   if(!saidas.length&&!contasPagas.length)return'<div class="empty">Nenhuma saída ainda</div>';
-  const avulsasHtml=saidas.map(i=>`
+  const avulsasHtml=saidasOrd.map(i=>`
 <div class="item">
   <div class="ico">${i.emoji||'💰'}</div>
   <div class="ii"><div class="id">${i.desc}</div><div class="im">${i.cat} · ${fmtD(i.data)}</div></div>
@@ -908,7 +1164,8 @@ ${contasPagas.map(i=>`
 
 function rLista(items,t,aba){
   if(!items.length)return'<div class="empty">Nenhum lançamento ainda</div>';
-  return items.map(i=>`
+  const sorted=[...items].sort((a,b)=>new Date(b.data||'2000-01-01')-new Date(a.data||'2000-01-01'));
+  return sorted.map(i=>`
 <div class="item">
   <div class="ico">${i.emoji||'💰'}</div>
   <div class="ii"><div class="id">${i.desc}</div><div class="im">${i.cat} · ${fmtD(i.data)}</div></div>
@@ -929,21 +1186,8 @@ function rContasMes(contas,aba){
       ?`<span class="bdg bpg">pago ✓</span><button class="mpb ud" onclick="desfazPago('${aba}','${i.id}','${i.recId||''}',${i.val})">↩ desfazer</button>`
       :`<button class="mpb pg" onclick="marcaPago('${aba}','${i.id}','${i.recId||''}',${i.val})">✓ pagar</button>`}
   </div>
-  ${!i.isRec?`<div class="iact">
-    <button class="iab ed" onclick='openEditContaPagar("${aba}","${i.id}","${i.recId||''}")'>✎</button>
-    <button class="iab dl" onclick='delAvulsa("${aba}",${i.id})'>✕</button>
-  </div>`:''}
+  ${!i.isRec?`<div class="iact"><button class="iab dl" onclick='delAvulsa("${aba}",${i.id})'>✕</button></div>`:''}
 </div>`).join('');
-}
-
-function openEditContaPagar(aba,id,recId){
-  if(String(id).startsWith('R_')&&recId){
-    openEditRec(Number(recId));
-    return;
-  }
-  const f=DB[aba].futuras.find(x=>String(x.id)===String(id));
-  if(!f)return;
-  openEdit(aba,'futuras',f.id);
 }
 
 function marcaPago(aba,id,recId,val){
@@ -1034,7 +1278,8 @@ function renderCasal(m){
 }
 function rFixas(items){
   if(!items.length)return'<div class="empty">Nenhuma conta fixa</div>';
-  return items.map(i=>`
+  const fixasOrd=[...items].sort((a,b)=>a.day-b.day);
+  return fixasOrd.map(i=>`
 <div style="padding:9px 0;border-bottom:.5px solid var(--sep)">
   <div style="display:flex;align-items:center;gap:11px">
     <div class="ico">${i.emoji}</div>
@@ -1050,7 +1295,8 @@ function rFixas(items){
 }
 function rEsp(items){
   if(!items.length)return'<div class="empty">Nenhum esporádico</div>';
-  return items.map(i=>{
+  const itemsOrd=[...items].sort((a,b)=>new Date(b.data||'2000-01-01')-new Date(a.data||'2000-01-01'));
+  return itemsOrd.map(i=>{
     const isProg=i.tipo==='programado';
     const tipoBdg=isProg
       ?`<span class="bdg" style="background:var(--Obg);color:var(--O)">⏳ programado</span>`
@@ -1081,9 +1327,29 @@ function aplicaEspSaldo(i,dir=-1){
   // Só aplica no saldo se for imediato
   if(!i||i.tipo==='programado')return;
   const mult=dir;
-  if(i.quem==='Ambos'){DB.ele.saldo+=mult*money(i.ele);DB.ela.saldo+=mult*money(i.ela);}
-  else if(i.quem==='Ele'){DB.ele.saldo+=mult*money(i.val);}
-  else if(i.quem==='Ela'){DB.ela.saldo+=mult*money(i.val);}
+  if(i.quem==='Ambos'){
+    DB.ele.saldo+=mult*money(i.ele);
+    DB.ela.saldo+=mult*money(i.ela);
+  } else if(i.quem==='Ele'){
+    DB.ele.saldo+=mult*money(i.val);
+  } else if(i.quem==='Ela'){
+    DB.ela.saldo+=mult*money(i.val);
+  }
+  // Criar/remover saída nas abas individuais para aparecer no histórico
+  if(dir===-1){
+    // Adicionando: criar lançamento em saidas de cada um
+    const data=i.data||todayISO();
+    if((i.quem==='Ambos'||i.quem==='Ele')&&money(i.ele)>0){
+      DB.ele.saidas.push({id:uid(),emoji:i.emoji,desc:i.desc+' (casal)',val:money(i.ele),cat:i.cat,data,espId:i.id});
+    }
+    if((i.quem==='Ambos'||i.quem==='Ela')&&money(i.ela)>0){
+      DB.ela.saidas.push({id:uid(),emoji:i.emoji,desc:i.desc+' (casal)',val:money(i.ela),cat:i.cat,data,espId:i.id});
+    }
+  } else {
+    // Removendo (desfazendo): apagar os lançamentos vinculados
+    DB.ele.saidas=DB.ele.saidas.filter(s=>s.espId!==i.id);
+    DB.ela.saidas=DB.ela.saidas.filter(s=>s.espId!==i.id);
+  }
 }
 
 /* Criar futuras avulsas individuais para esporádico programado */
@@ -1290,7 +1556,7 @@ function renderEco(m){
 <div class="acts"><button class="ab abb" onclick="openModal('nova_res','eco')">🐷 Nova reserva</button></div>
 <div class="gc">
   <div class="glbl">Reservas</div>
-  ${items.length?items.map(i=>pigCard(i)).join(''):'<div class="empty">Nenhuma reserva ainda</div>'}
+  ${items.length?[...items].sort((a,b)=>b.val-a.val).map(i=>pigCard(i)).join(''):'<div class="empty">Nenhuma reserva ainda</div>'}
 </div>`;
 }
 
@@ -1885,9 +2151,8 @@ function renderEmp(m){
 
 function rEmpCasal(items){
   if(!items.length)return'<div class="empty">Nenhum empréstimo entre vocês</div>';
-  // Separar pendentes e quitados
-  const pend=items.filter(e=>!e.pago);
-  const quit=items.filter(e=>e.pago);
+  const pend=[...items.filter(e=>!e.pago)].sort((a,b)=>new Date(b.data||'2000-01-01')-new Date(a.data||'2000-01-01'));
+  const quit=[...items.filter(e=>e.pago)].sort((a,b)=>new Date(b.dataPago||b.data||'2000-01-01')-new Date(a.dataPago||a.data||'2000-01-01'));
   let html='';
   if(pend.length){
     html+=pend.map(e=>empCardCasal(e)).join('');
@@ -1939,8 +2204,8 @@ function empCardCasal(e,dim=false){
 
 function rEmpExt(items){
   if(!items.length)return'<div class="empty">Nenhum empréstimo para terceiros</div>';
-  const pend=items.filter(e=>!e.pago);
-  const quit=items.filter(e=>e.pago);
+  const pend=[...items.filter(e=>!e.pago)].sort((a,b)=>new Date(b.data||'2000-01-01')-new Date(a.data||'2000-01-01'));
+  const quit=[...items.filter(e=>e.pago)].sort((a,b)=>new Date(b.dataPago||b.data||'2000-01-01')-new Date(a.dataPago||a.data||'2000-01-01'));
   let html='';
   if(pend.length) html+=pend.map(e=>empCardExt(e)).join('');
   if(quit.length){
